@@ -47,7 +47,7 @@ class Graph():
             # Lấy tọa độ từ list [long, lat]
             lon, lat = info["coordinates"]
             name = info.get("name", "Unknown")
-
+            if(name=="NS17"): print("check")
             self.nodes[node_id] = (lat, lon)  # Lưu (lat, lon) để khớp với hàm haversine của bạn
             self.names[node_id] = name
             self.adj_list[node_id] = []
@@ -58,8 +58,8 @@ class Graph():
             for neighbor in info.get("adjacency", []):
                 v = neighbor["node"]
                 cost = neighbor["weight"]
-
                 if v in self.nodes:
+                    if (u == "NS16"): print(neighbor)
                     self.adj_list[u].append((v, cost))
                     self.edges.append((u, v, cost))
 
@@ -84,8 +84,83 @@ class Graph():
             print(self.adj_list[node])
             print("-----------")
             i+=1
-            if(i==10) : break
+
+
+    def add_chosen_location(self, start_coord, end_coord):
+        """
+        Kết nối START/END với 3 ga gần nhất để tối ưu tìm đường
+        """
+        if not self._kd_tree:
+            return None, None
+
+        # Tạo ID tạm thời cho 2 điểm này
+        start_node = "Start"
+        end_node = "Dest"
+
+        # Khởi tạo danh sách kề tạm thời cho 2 nút này
+        self.adj_list[start_node] = []
+        self.nodes[start_node] = start_coord
+        self.names[start_node] = "Vị trí của bạn"
+
+
+        self.adj_list[end_node] = []
+        self.nodes[end_node] = end_coord
+        self.names[end_node] = "Điểm đến"
+
+        # 🔹 Tìm 3 ga gần nhất cho mỗi điểm (k=3)
+        for point_type, coord, node_id in [("START", start_coord, start_node),
+                                           ("END", end_coord, end_node)]:
+
+            # k=3 để lấy 3 hàng xóm gần nhất
+            dists, indices = self._kd_tree.query([coord[0], coord[1]], k=3)
+
+            for d, idx in zip(dists, indices):
+                neighbor_id = self._node_ids[idx]
+
+                # Tính khoảng cách thực tế bằng Haversine (km)
+                cost = self.haversine(coord[0], coord[1],
+                                      self.nodes[neighbor_id][0], self.nodes[neighbor_id][1])
+
+                # Nối 2 chiều: Từ vị trí chọn -> Ga MRT và ngược lại
+                self.adj_list[node_id].append((neighbor_id, cost))
+                self.adj_list[neighbor_id].append((node_id, cost))
+
+    def remove_chosen_location(self):
+        """
+        Dọn dẹp các nút tạm thời và các kết nối liên quan để reset đồ thị
+        """
+        temp_nodes = ["Start", "Dest"]
+
+        for temp_id in temp_nodes:
+            if temp_id in self.adj_list:
+                # 1. Tìm tất cả các ga hàng xóm đang nối với nút tạm này
+                neighbors = self.adj_list[temp_id]
+
+                for neighbor_tuple in neighbors:
+                    neighbor_id = neighbor_tuple[0]  # Lấy mã ga MRT (ví dụ: "NS10")
+
+                    # 2. Xóa cạnh ngược: Từ ga MRT trỏ về nút tạm
+                    if neighbor_id in self.adj_list:
+                        # Lọc bỏ các tuple có chứa temp_id
+                        self.adj_list[neighbor_id] = [
+                            item for item in self.adj_list[neighbor_id]
+                            if item[0] != temp_id
+                        ]
+
+                # 3. Xóa chính nút tạm trong các bảng dữ liệu
+                del self.adj_list[temp_id]
+
+                if temp_id in self.nodes:
+                    del self.nodes[temp_id]
+                if temp_id in self.names:
+                    del self.names[temp_id]
+
+        print("🧹 Đồ thị đã được dọn dẹp (Reset về trạng thái MRT gốc).")
+
 g =  Graph()
 g.load_from_json(r"C:\Users\phank\PycharmProjects\INTRO_AI_IT3160_20252\res\mrt_graph.json")
-g.print_info_stations()
+g.add_chosen_location((1.445, 103.805),(1.285, 103.860))
+dfs = DFS()
+total_nodes,path=dfs.run("Start","Dest",g)
+print(total_nodes,path)
 

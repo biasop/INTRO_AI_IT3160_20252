@@ -40,11 +40,15 @@ class DFS(Algorithm):
             if current == goal:
                 return count_node, self.reconstruct_path(start, goal, came_from)
             for neighbor in graph.adj_list[current]:
-                print(neighbor)
                 neighbor_id = neighbor[0]
+                print(neighbor_id,end=" ")
                 if neighbor_id in closed:
                     continue
-                closed.add(neighbor)
-                came_from[neighbor] = current
-                open_set.append(neighbor)
+                closed.add(neighbor_id)
+                came_from[neighbor_id] = current
+                open_set.append(neighbor_id)
+            print()
+            print(open_set)
+            print(closed)
+            print("-------------")
         return count_node, None
