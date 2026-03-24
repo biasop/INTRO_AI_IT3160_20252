@@ -1,0 +1,3537 @@
+{
+    "NS10": {
+        "name": "Admiralty",
+        "station_codes": "NS10",
+        "coordinates": [
+            103.800959,
+            1.440637
+        ],
+        "adjacency": [
+            {
+                "node": "NS9",
+                "weight": 1.52
+            },
+            {
+                "node": "NS11",
+                "weight": 2.322
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW9": {
+        "name": "Aljunied",
+        "station_codes": "EW9",
+        "coordinates": [
+            103.882665,
+            1.316259
+        ],
+        "adjacency": [
+            {
+                "node": "EW8",
+                "weight": 1.091
+            },
+            {
+                "node": "EW10",
+                "weight": 1.368
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS16": {
+        "name": "Ang Mo Kio",
+        "station_codes": "NS16",
+        "coordinates": [
+            103.84954,
+            1.370053
+        ],
+        "adjacency": [
+            {
+                "node": "NS15",
+                "weight": 1.4
+            },
+            {
+                "node": "NS17",
+                "weight": 2.073
+            }
+        ],
+        "network_count": 1.0
+    },
+    "SE3": {
+        "name": "Bakau",
+        "station_codes": "SE3",
+        "coordinates": [
+            103.905458,
+            1.388029
+        ],
+        "adjacency": [
+            {
+                "node": "SE2",
+                "weight": 0.391
+            },
+            {
+                "node": "SE4",
+                "weight": 0.583
+            }
+        ],
+        "network_count": 1.0
+    },
+    "BP9": {
+        "name": "Bangkit",
+        "station_codes": "BP9",
+        "coordinates": [
+            103.772644,
+            1.380055
+        ],
+        "adjacency": [
+            {
+                "node": "BP8",
+                "weight": 0.457
+            },
+            {
+                "node": "BP10",
+                "weight": 0.54
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC12": {
+        "name": "Bartley",
+        "station_codes": "CC12",
+        "coordinates": [
+            103.880449,
+            1.342438
+        ],
+        "adjacency": [
+            {
+                "node": "CC11",
+                "weight": 1.201
+            },
+            {
+                "node": "CC13",
+                "weight": 1.106
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT16-CE1": {
+        "name": "Bayfront",
+        "station_codes": "DT16-CE1",
+        "coordinates": [
+            103.85973,
+            1.282535
+        ],
+        "adjacency": [
+            {
+                "node": "DT15",
+                "weight": 1.259
+            },
+            {
+                "node": "DT17",
+                "weight": 0.801
+            },
+            {
+                "node": "CE2",
+                "weight": 0.988
+            }
+        ],
+        "network_count": 2.0
+    },
+    "TE29": {
+        "name": "Bayshore",
+        "station_codes": "TE29",
+        "coordinates": [
+            103.942308,
+            1.313123
+        ],
+        "adjacency": [
+            {
+                "node": "TE28",
+                "weight": 1.409
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT5": {
+        "name": "Beauty World",
+        "station_codes": "DT5",
+        "coordinates": [
+            103.775936,
+            1.341664
+        ],
+        "adjacency": [
+            {
+                "node": "DT4",
+                "weight": 1.595
+            },
+            {
+                "node": "DT6",
+                "weight": 1.132
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW5": {
+        "name": "Bedok",
+        "station_codes": "EW5",
+        "coordinates": [
+            103.929995,
+            1.323935
+        ],
+        "adjacency": [
+            {
+                "node": "EW4",
+                "weight": 1.873
+            },
+            {
+                "node": "EW6",
+                "weight": 1.942
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT29": {
+        "name": "Bedok North",
+        "station_codes": "DT29",
+        "coordinates": [
+            103.918036,
+            1.33475
+        ],
+        "adjacency": [
+            {
+                "node": "DT28",
+                "weight": 1.048
+            },
+            {
+                "node": "DT30",
+                "weight": 1.549
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT30": {
+        "name": "Bedok Reservoir",
+        "station_codes": "DT30",
+        "coordinates": [
+            103.931887,
+            1.336284
+        ],
+        "adjacency": [
+            {
+                "node": "DT29",
+                "weight": 1.549
+            },
+            {
+                "node": "DT31",
+                "weight": 1.267
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT21": {
+        "name": "Bencoolen",
+        "station_codes": "DT21",
+        "coordinates": [
+            103.850369,
+            1.298861
+        ],
+        "adjacency": [
+            {
+                "node": "DT20",
+                "weight": 0.997
+            },
+            {
+                "node": "DT22",
+                "weight": 0.882
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT23": {
+        "name": "Bendemeer",
+        "station_codes": "DT23",
+        "coordinates": [
+            103.863067,
+            1.313583
+        ],
+        "adjacency": [
+            {
+                "node": "DT22",
+                "weight": 1.282
+            },
+            {
+                "node": "DT24",
+                "weight": 1.334
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS17-CC15": {
+        "name": "Bishan",
+        "station_codes": "NS17-CC15",
+        "coordinates": [
+            103.848263,
+            1.351455
+        ],
+        "adjacency": [
+            {
+                "node": "NS16",
+                "weight": 2.073
+            },
+            {
+                "node": "NS18",
+                "weight": 1.218
+            },
+            {
+                "node": "CC14",
+                "weight": 1.682
+            },
+            {
+                "node": "CC16",
+                "weight": 1.052
+            }
+        ],
+        "network_count": 2.0
+    },
+    "NE9": {
+        "name": "Boon Keng",
+        "station_codes": "NE9",
+        "coordinates": [
+            103.861521,
+            1.319824
+        ],
+        "adjacency": [
+            {
+                "node": "NE8",
+                "weight": 1.121
+            },
+            {
+                "node": "NE10",
+                "weight": 1.524
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW27": {
+        "name": "Boon Lay",
+        "station_codes": "EW27",
+        "coordinates": [
+            103.705777,
+            1.338472
+        ],
+        "adjacency": [
+            {
+                "node": "EW26",
+                "weight": 1.792
+            },
+            {
+                "node": "EW28",
+                "weight": 0.942
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC19-DT9": {
+        "name": "Botanic Gardens",
+        "station_codes": "CC19-DT9",
+        "coordinates": [
+            103.815747,
+            1.322559
+        ],
+        "adjacency": [
+            {
+                "node": "CC20",
+                "weight": 1.041
+            },
+            {
+                "node": "DT8",
+                "weight": 0.955
+            },
+            {
+                "node": "DT10",
+                "weight": 1.111
+            }
+        ],
+        "network_count": 2.0
+    },
+    "NS18": {
+        "name": "Braddell",
+        "station_codes": "NS18",
+        "coordinates": [
+            103.846788,
+            1.340599
+        ],
+        "adjacency": [
+            {
+                "node": "NS17",
+                "weight": 1.218
+            },
+            {
+                "node": "NS19",
+                "weight": 0.925
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC2": {
+        "name": "Bras Basah",
+        "station_codes": "CC2",
+        "coordinates": [
+            103.85055,
+            1.296896
+        ],
+        "adjacency": [
+            {
+                "node": "CC1",
+                "weight": 0.65
+            },
+            {
+                "node": "CC3",
+                "weight": 0.726
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE7": {
+        "name": "Bright Hill",
+        "station_codes": "TE7",
+        "coordinates": [
+            103.832836,
+            1.363449
+        ],
+        "adjacency": [
+            {
+                "node": "TE6",
+                "weight": 1.063
+            },
+            {
+                "node": "TE8",
+                "weight": 0.997
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NE15": {
+        "name": "Buangkok",
+        "station_codes": "NE15",
+        "coordinates": [
+            103.89305,
+            1.383056
+        ],
+        "adjacency": [
+            {
+                "node": "NE14",
+                "weight": 1.24
+            },
+            {
+                "node": "NE16",
+                "weight": 0.953
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW12-DT14": {
+        "name": "Bugis",
+        "station_codes": "EW12-DT14",
+        "coordinates": [
+            103.856095,
+            1.30053
+        ],
+        "adjacency": [
+            {
+                "node": "EW11",
+                "weight": 1.089
+            },
+            {
+                "node": "EW13",
+                "weight": 0.941
+            },
+            {
+                "node": "DT13",
+                "weight": 0.541
+            },
+            {
+                "node": "DT15",
+                "weight": 0.869
+            }
+        ],
+        "network_count": 2.0
+    },
+    "NS2": {
+        "name": "Bukit Batok",
+        "station_codes": "NS2",
+        "coordinates": [
+            103.749591,
+            1.349057
+        ],
+        "adjacency": [
+            {
+                "node": "NS1",
+                "weight": 1.949
+            },
+            {
+                "node": "NS3",
+                "weight": 1.122
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS3": {
+        "name": "Bukit Gombak",
+        "station_codes": "NS3",
+        "coordinates": [
+            103.751825,
+            1.358893
+        ],
+        "adjacency": [
+            {
+                "node": "NS2",
+                "weight": 1.122
+            },
+            {
+                "node": "NS4",
+                "weight": 2.987
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT1-BP6": {
+        "name": "Bukit Panjang",
+        "station_codes": "DT1-BP6",
+        "coordinates": [
+            103.762138,
+            1.378296
+        ],
+        "adjacency": [
+            {
+                "node": "DT2",
+                "weight": 0.995
+            },
+            {
+                "node": "BP5",
+                "weight": 0.46
+            },
+            {
+                "node": "BP7",
+                "weight": 0.503
+            }
+        ],
+        "network_count": 2.0
+    },
+    "EW21-CC22": {
+        "name": "Buona Vista",
+        "station_codes": "EW21-CC22",
+        "coordinates": [
+            103.790705,
+            1.307263
+        ],
+        "adjacency": [
+            {
+                "node": "EW20",
+                "weight": 1.001
+            },
+            {
+                "node": "EW22",
+                "weight": 1.42
+            },
+            {
+                "node": "CC21",
+                "weight": 0.778
+            },
+            {
+                "node": "CC23",
+                "weight": 0.934
+            }
+        ],
+        "network_count": 2.0
+    },
+    "CC17-TE9": {
+        "name": "Caldecott",
+        "station_codes": "CC17-TE9",
+        "coordinates": [
+            103.839991,
+            1.33768
+        ],
+        "adjacency": [
+            {
+                "node": "CC16",
+                "weight": 1.219
+            },
+            {
+                "node": "TE8",
+                "weight": 2.032
+            }
+        ],
+        "network_count": 2.0
+    },
+    "NS12": {
+        "name": "Canberra",
+        "station_codes": "NS12",
+        "coordinates": [
+            103.829502,
+            1.443369
+        ],
+        "adjacency": [
+            {
+                "node": "NS11",
+                "weight": 1.228
+            },
+            {
+                "node": "NS13",
+                "weight": 1.672
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT2": {
+        "name": "Cashew",
+        "station_codes": "DT2",
+        "coordinates": [
+            103.764481,
+            1.369661
+        ],
+        "adjacency": [
+            {
+                "node": "DT1",
+                "weight": 0.995
+            },
+            {
+                "node": "DT3",
+                "weight": 0.852
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CG2": {
+        "name": "Changi Airport",
+        "station_codes": "CG2",
+        "coordinates": [
+            103.988565,
+            1.357338
+        ],
+        "adjacency": [
+            {
+                "node": "CG1",
+                "weight": 3.793
+            }
+        ],
+        "network_count": 1.0
+    },
+    "SW1": {
+        "name": "Cheng Lim",
+        "station_codes": "SW1",
+        "coordinates": [
+            103.893713,
+            1.39631
+        ],
+        "adjacency": [
+            {
+                "node": "SW2",
+                "weight": 0.515
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NE4-DT19": {
+        "name": "Chinatown",
+        "station_codes": "NE4-DT19",
+        "coordinates": [
+            103.844003,
+            1.28502
+        ],
+        "adjacency": [
+            {
+                "node": "NE3",
+                "weight": 0.638
+            },
+            {
+                "node": "NE5",
+                "weight": 0.544
+            },
+            {
+                "node": "DT18",
+                "weight": 0.618
+            },
+            {
+                "node": "DT20",
+                "weight": 0.82
+            }
+        ],
+        "network_count": 2.0
+    },
+    "EW25": {
+        "name": "Chinese Garden",
+        "station_codes": "EW25",
+        "coordinates": [
+            103.732594,
+            1.34247
+        ],
+        "adjacency": [
+            {
+                "node": "EW24",
+                "weight": 1.499
+            },
+            {
+                "node": "EW26",
+                "weight": 1.327
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS4-BP1": {
+        "name": "Choa Chu Kang",
+        "station_codes": "NS4-BP1",
+        "coordinates": [
+            103.744534,
+            1.384749
+        ],
+        "adjacency": [
+            {
+                "node": "NS3",
+                "weight": 2.987
+            },
+            {
+                "node": "NS5",
+                "weight": 1.449
+            },
+            {
+                "node": "BP2",
+                "weight": 0.506
+            }
+        ],
+        "network_count": 2.0
+    },
+    "NS25-EW13": {
+        "name": "City Hall",
+        "station_codes": "NS25-EW13",
+        "coordinates": [
+            103.851835,
+            1.293214
+        ],
+        "adjacency": [
+            {
+                "node": "NS24",
+                "weight": 0.979
+            },
+            {
+                "node": "NS26",
+                "weight": 0.98
+            },
+            {
+                "node": "EW12",
+                "weight": 0.941
+            },
+            {
+                "node": "EW14",
+                "weight": 0.98
+            }
+        ],
+        "network_count": 2.0
+    },
+    "NE5": {
+        "name": "Clarke Quay",
+        "station_codes": "NE5",
+        "coordinates": [
+            103.846869,
+            1.288981
+        ],
+        "adjacency": [
+            {
+                "node": "NE4",
+                "weight": 0.544
+            },
+            {
+                "node": "NE6",
+                "weight": 1.109
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW23": {
+        "name": "Clementi",
+        "station_codes": "EW23",
+        "coordinates": [
+            103.765231,
+            1.3151
+        ],
+        "adjacency": [
+            {
+                "node": "EW22",
+                "weight": 1.544
+            },
+            {
+                "node": "EW24",
+                "weight": 3.242
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW20": {
+        "name": "Commonwealth",
+        "station_codes": "EW20",
+        "coordinates": [
+            103.798308,
+            1.302443
+        ],
+        "adjacency": [
+            {
+                "node": "EW19",
+                "weight": 1.229
+            },
+            {
+                "node": "EW21",
+                "weight": 1.001
+            }
+        ],
+        "network_count": 1.0
+    },
+    "SE1": {
+        "name": "Compassvale",
+        "station_codes": "SE1",
+        "coordinates": [
+            103.900435,
+            1.394518
+        ],
+        "adjacency": [
+            {
+                "node": "SE2",
+                "weight": 0.697
+            }
+        ],
+        "network_count": 1.0
+    },
+    "PE3": {
+        "name": "Coral Edge",
+        "station_codes": "PE3",
+        "coordinates": [
+            103.912643,
+            1.393876
+        ],
+        "adjacency": [
+            {
+                "node": "PE2",
+                "weight": 0.543
+            },
+            {
+                "node": "PE4",
+                "weight": 0.396
+            }
+        ],
+        "network_count": 1.0
+    },
+    "PE1": {
+        "name": "Cove",
+        "station_codes": "PE1",
+        "coordinates": [
+            103.905852,
+            1.399464
+        ],
+        "adjacency": [
+            {
+                "node": "PE2",
+                "weight": 0.435
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC8": {
+        "name": "Dakota",
+        "station_codes": "CC8",
+        "coordinates": [
+            103.88832,
+            1.308438
+        ],
+        "adjacency": [
+            {
+                "node": "CC7",
+                "weight": 0.692
+            },
+            {
+                "node": "CC9",
+                "weight": 1.158
+            }
+        ],
+        "network_count": 1.0
+    },
+    "PE7": {
+        "name": "Damai",
+        "station_codes": "PE7",
+        "coordinates": [
+            103.908556,
+            1.405282
+        ],
+        "adjacency": [
+            {
+                "node": "PE6",
+                "weight": 0.565
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS24-NE6-CC1": {
+        "name": "Dhoby Ghaut",
+        "station_codes": "NS24-NE6-CC1",
+        "coordinates": [
+            103.84502,
+            1.298786
+        ],
+        "adjacency": [
+            {
+                "node": "NS23",
+                "weight": 0.744
+            },
+            {
+                "node": "NS25",
+                "weight": 0.979
+            },
+            {
+                "node": "NE5",
+                "weight": 1.109
+            },
+            {
+                "node": "NE7",
+                "weight": 0.988
+            },
+            {
+                "node": "CC2",
+                "weight": 0.65
+            }
+        ],
+        "network_count": 3.0
+    },
+    "EW22": {
+        "name": "Dover",
+        "station_codes": "EW22",
+        "coordinates": [
+            103.778628,
+            1.311421
+        ],
+        "adjacency": [
+            {
+                "node": "EW21",
+                "weight": 1.42
+            },
+            {
+                "node": "EW23",
+                "weight": 1.544
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT17": {
+        "name": "Downtown",
+        "station_codes": "DT17",
+        "coordinates": [
+            103.853345,
+            1.279191
+        ],
+        "adjacency": [
+            {
+                "node": "DT16",
+                "weight": 0.801
+            },
+            {
+                "node": "DT18",
+                "weight": 0.607
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC3": {
+        "name": "Esplanade",
+        "station_codes": "CC3",
+        "coordinates": [
+            103.855974,
+            1.293258
+        ],
+        "adjacency": [
+            {
+                "node": "CC2",
+                "weight": 0.726
+            },
+            {
+                "node": "CC4",
+                "weight": 0.469
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW7": {
+        "name": "Eunos",
+        "station_codes": "EW7",
+        "coordinates": [
+            103.903058,
+            1.319814
+        ],
+        "adjacency": [
+            {
+                "node": "EW6",
+                "weight": 1.088
+            },
+            {
+                "node": "EW8",
+                "weight": 1.21
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT35-CG1": {
+        "name": "Expo",
+        "station_codes": "DT35-CG1",
+        "coordinates": [
+            103.962238,
+            1.33564
+        ],
+        "adjacency": [
+            {
+                "node": "DT34",
+                "weight": 0.681
+            },
+            {
+                "node": "CG2",
+                "weight": 3.793
+            }
+        ],
+        "network_count": 2.0
+    },
+    "BP10": {
+        "name": "Fajar",
+        "station_codes": "BP10",
+        "coordinates": [
+            103.7708,
+            1.38455
+        ],
+        "adjacency": [
+            {
+                "node": "BP9",
+                "weight": 0.54
+            },
+            {
+                "node": "BP11",
+                "weight": 0.385
+            }
+        ],
+        "network_count": 1.0
+    },
+    "SW2": {
+        "name": "Farmway",
+        "station_codes": "SW2",
+        "coordinates": [
+            103.889167,
+            1.397191
+        ],
+        "adjacency": [
+            {
+                "node": "SW1",
+                "weight": 0.515
+            },
+            {
+                "node": "SW3",
+                "weight": 0.888
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NE8": {
+        "name": "Farrer Park",
+        "station_codes": "NE8",
+        "coordinates": [
+            103.854377,
+            1.312708
+        ],
+        "adjacency": [
+            {
+                "node": "NE7",
+                "weight": 0.886
+            },
+            {
+                "node": "NE9",
+                "weight": 1.121
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC20": {
+        "name": "Farrer Road",
+        "station_codes": "CC20",
+        "coordinates": [
+            103.807785,
+            1.317628
+        ],
+        "adjacency": [
+            {
+                "node": "CC19",
+                "weight": 1.041
+            },
+            {
+                "node": "CC21",
+                "weight": 1.472
+            }
+        ],
+        "network_count": 1.0
+    },
+    "SW5": {
+        "name": "Fernvale",
+        "station_codes": "SW5",
+        "coordinates": [
+            103.876297,
+            1.391916
+        ],
+        "adjacency": [
+            {
+                "node": "SW4",
+                "weight": 0.618
+            },
+            {
+                "node": "SW6",
+                "weight": 0.42
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT20": {
+        "name": "Fort Canning",
+        "station_codes": "DT20",
+        "coordinates": [
+            103.844157,
+            1.292393
+        ],
+        "adjacency": [
+            {
+                "node": "DT19",
+                "weight": 0.82
+            },
+            {
+                "node": "DT21",
+                "weight": 0.997
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE22": {
+        "name": "Gardens by the Bay",
+        "station_codes": "TE22",
+        "coordinates": [
+            103.868124,
+            1.279451
+        ],
+        "adjacency": [
+            {
+                "node": "TE23",
+                "weight": 2.068
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT24": {
+        "name": "Geylang Bahru",
+        "station_codes": "DT24",
+        "coordinates": [
+            103.871983,
+            1.321611
+        ],
+        "adjacency": [
+            {
+                "node": "DT23",
+                "weight": 1.334
+            },
+            {
+                "node": "DT25",
+                "weight": 1.358
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE15": {
+        "name": "Great World",
+        "station_codes": "TE15",
+        "coordinates": [
+            103.833483,
+            1.294625
+        ],
+        "adjacency": [
+            {
+                "node": "TE14",
+                "weight": 0.971
+            },
+            {
+                "node": "TE16",
+                "weight": 0.794
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW30": {
+        "name": "Gul Circle",
+        "station_codes": "EW30",
+        "coordinates": [
+            103.660415,
+            1.319423
+        ],
+        "adjacency": [
+            {
+                "node": "EW29",
+                "weight": 2.19
+            },
+            {
+                "node": "EW31",
+                "weight": 1.215
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NE1-CC29": {
+        "name": "HarbourFront",
+        "station_codes": "NE1-CC29",
+        "coordinates": [
+            103.822403,
+            1.265391
+        ],
+        "adjacency": [
+            {
+                "node": "CC28",
+                "weight": 1.509
+            }
+        ],
+        "network_count": 2.0
+    },
+    "TE16": {
+        "name": "Havelock",
+        "station_codes": "TE16",
+        "coordinates": [
+            103.833707,
+            1.28749
+        ],
+        "adjacency": [
+            {
+                "node": "TE15",
+                "weight": 0.794
+            },
+            {
+                "node": "TE17",
+                "weight": 1.049
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC25": {
+        "name": "Haw Par Villa",
+        "station_codes": "CC25",
+        "coordinates": [
+            103.781772,
+            1.282654
+        ],
+        "adjacency": [
+            {
+                "node": "CC24",
+                "weight": 1.22
+            },
+            {
+                "node": "CC26",
+                "weight": 1.31
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT3": {
+        "name": "Hillview",
+        "station_codes": "DT3",
+        "coordinates": [
+            103.767067,
+            1.362451
+        ],
+        "adjacency": [
+            {
+                "node": "DT2",
+                "weight": 0.852
+            },
+            {
+                "node": "DT4",
+                "weight": 0.933
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC21": {
+        "name": "Holland Village",
+        "station_codes": "CC21",
+        "coordinates": [
+            103.795744,
+            1.312117
+        ],
+        "adjacency": [
+            {
+                "node": "CC20",
+                "weight": 1.472
+            },
+            {
+                "node": "CC22",
+                "weight": 0.778
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NE14": {
+        "name": "Hougang",
+        "station_codes": "NE14",
+        "coordinates": [
+            103.892754,
+            1.371904
+        ],
+        "adjacency": [
+            {
+                "node": "NE13",
+                "weight": 1.589
+            },
+            {
+                "node": "NE15",
+                "weight": 1.24
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT4": {
+        "name": "Hume",
+        "station_codes": "DT4",
+        "coordinates": [
+            103.769212,
+            1.354339
+        ],
+        "adjacency": [
+            {
+                "node": "DT3",
+                "weight": 0.933
+            },
+            {
+                "node": "DT5",
+                "weight": 1.595
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT22": {
+        "name": "Jalan Besar",
+        "station_codes": "DT22",
+        "coordinates": [
+            103.85523,
+            1.305125
+        ],
+        "adjacency": [
+            {
+                "node": "DT21",
+                "weight": 0.882
+            },
+            {
+                "node": "DT23",
+                "weight": 1.282
+            }
+        ],
+        "network_count": 1.0
+    },
+    "BP12": {
+        "name": "Jelapang",
+        "station_codes": "BP12",
+        "coordinates": [
+            103.764515,
+            1.386683
+        ],
+        "adjacency": [
+            {
+                "node": "BP11",
+                "weight": 0.578
+            },
+            {
+                "node": "BP13",
+                "weight": 0.505
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW29": {
+        "name": "Joo Koon",
+        "station_codes": "EW29",
+        "coordinates": [
+            103.678285,
+            1.32772
+        ],
+        "adjacency": [
+            {
+                "node": "EW28",
+                "weight": 2.386
+            },
+            {
+                "node": "EW30",
+                "weight": 2.19
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS1-EW24": {
+        "name": "Jurong East",
+        "station_codes": "NS1-EW24",
+        "coordinates": [
+            103.742297,
+            1.333115
+        ],
+        "adjacency": [
+            {
+                "node": "NS2",
+                "weight": 1.949
+            },
+            {
+                "node": "EW23",
+                "weight": 3.242
+            },
+            {
+                "node": "EW25",
+                "weight": 1.499
+            }
+        ],
+        "network_count": 2.0
+    },
+    "PE5": {
+        "name": "Kadaloor",
+        "station_codes": "PE5",
+        "coordinates": [
+            103.916445,
+            1.399601
+        ],
+        "adjacency": [
+            {
+                "node": "PE4",
+                "weight": 0.559
+            },
+            {
+                "node": "PE6",
+                "weight": 0.516
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT28": {
+        "name": "Kaki Bukit ",
+        "station_codes": "DT28",
+        "coordinates": [
+            103.908611,
+            1.335024
+        ],
+        "adjacency": [
+            {
+                "node": "DT27",
+                "weight": 1.181
+            },
+            {
+                "node": "DT29",
+                "weight": 1.048
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW10": {
+        "name": "Kallang",
+        "station_codes": "EW10",
+        "coordinates": [
+            103.871339,
+            1.311448
+        ],
+        "adjacency": [
+            {
+                "node": "EW9",
+                "weight": 1.368
+            },
+            {
+                "node": "EW11",
+                "weight": 1.025
+            }
+        ],
+        "network_count": 1.0
+    },
+    "SE4": {
+        "name": "Kangkar",
+        "station_codes": "SE4",
+        "coordinates": [
+            103.902202,
+            1.383922
+        ],
+        "adjacency": [
+            {
+                "node": "SE3",
+                "weight": 0.583
+            },
+            {
+                "node": "SE5",
+                "weight": 0.54
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE24": {
+        "name": "Katong Park",
+        "station_codes": "TE24",
+        "coordinates": [
+            103.886179,
+            1.297832
+        ],
+        "adjacency": [
+            {
+                "node": "TE23",
+                "weight": 1.416
+            },
+            {
+                "node": "TE25",
+                "weight": 1.255
+            }
+        ],
+        "network_count": 1.0
+    },
+    "BP3": {
+        "name": "Keat Hong",
+        "station_codes": "BP3",
+        "coordinates": [
+            103.74903,
+            1.378599
+        ],
+        "adjacency": [
+            {
+                "node": "BP2",
+                "weight": 0.455
+            },
+            {
+                "node": "BP4",
+                "weight": 0.556
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW6": {
+        "name": "Kembangan",
+        "station_codes": "EW6",
+        "coordinates": [
+            103.912762,
+            1.321055
+        ],
+        "adjacency": [
+            {
+                "node": "EW5",
+                "weight": 1.942
+            },
+            {
+                "node": "EW7",
+                "weight": 1.088
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC24": {
+        "name": "Kent Ridge",
+        "station_codes": "CC24",
+        "coordinates": [
+            103.784413,
+            1.293301
+        ],
+        "adjacency": [
+            {
+                "node": "CC23",
+                "weight": 0.768
+            },
+            {
+                "node": "CC25",
+                "weight": 1.22
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS14": {
+        "name": "Khatib",
+        "station_codes": "NS14",
+        "coordinates": [
+            103.832998,
+            1.417316
+        ],
+        "adjacency": [
+            {
+                "node": "NS13",
+                "weight": 1.361
+            },
+            {
+                "node": "NS15",
+                "weight": 4.169
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT6": {
+        "name": "King Albert Park",
+        "station_codes": "DT6",
+        "coordinates": [
+            103.78416,
+            1.33566
+        ],
+        "adjacency": [
+            {
+                "node": "DT5",
+                "weight": 1.132
+            },
+            {
+                "node": "DT7",
+                "weight": 1.558
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NE13": {
+        "name": "Kovan",
+        "station_codes": "NE13",
+        "coordinates": [
+            103.884874,
+            1.359977
+        ],
+        "adjacency": [
+            {
+                "node": "NE12",
+                "weight": 1.674
+            },
+            {
+                "node": "NE14",
+                "weight": 1.589
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS7": {
+        "name": "Kranji",
+        "station_codes": "NS7",
+        "coordinates": [
+            103.761989,
+            1.425219
+        ],
+        "adjacency": [
+            {
+                "node": "NS8",
+                "weight": 1.584
+            }
+        ],
+        "network_count": 1.0
+    },
+    "SW3": {
+        "name": "Kupang",
+        "station_codes": "SW3",
+        "coordinates": [
+            103.881244,
+            1.398204
+        ],
+        "adjacency": [
+            {
+                "node": "SW2",
+                "weight": 0.888
+            },
+            {
+                "node": "SW4",
+                "weight": 0.628
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC27": {
+        "name": "Labrador Park",
+        "station_codes": "CC27",
+        "coordinates": [
+            103.802782,
+            1.272328
+        ],
+        "adjacency": [
+            {
+                "node": "CC26",
+                "weight": 1.313
+            },
+            {
+                "node": "CC28",
+                "weight": 0.811
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW26": {
+        "name": "Lakeside",
+        "station_codes": "EW26",
+        "coordinates": [
+            103.720801,
+            1.344303
+        ],
+        "adjacency": [
+            {
+                "node": "EW25",
+                "weight": 1.327
+            },
+            {
+                "node": "EW27",
+                "weight": 1.792
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW11": {
+        "name": "Lavender",
+        "station_codes": "EW11",
+        "coordinates": [
+            103.86303,
+            1.307445
+        ],
+        "adjacency": [
+            {
+                "node": "EW10",
+                "weight": 1.025
+            },
+            {
+                "node": "EW12",
+                "weight": 1.089
+            }
+        ],
+        "network_count": 1.0
+    },
+    "SW6": {
+        "name": "Layar",
+        "station_codes": "SW6",
+        "coordinates": [
+            103.880074,
+            1.392114
+        ],
+        "adjacency": [
+            {
+                "node": "SW5",
+                "weight": 0.42
+            },
+            {
+                "node": "SW7",
+                "weight": 0.703
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE5": {
+        "name": "Lentor",
+        "station_codes": "TE5",
+        "coordinates": [
+            103.836626,
+            1.384738
+        ],
+        "adjacency": [
+            {
+                "node": "TE4",
+                "weight": 2.533
+            },
+            {
+                "node": "TE6",
+                "weight": 1.4
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NE7-DT12": {
+        "name": "Little India",
+        "station_codes": "NE7-DT12",
+        "coordinates": [
+            103.849299,
+            1.306571
+        ],
+        "adjacency": [
+            {
+                "node": "NE6",
+                "weight": 0.988
+            },
+            {
+                "node": "NE8",
+                "weight": 0.886
+            },
+            {
+                "node": "DT11",
+                "weight": 1.36
+            },
+            {
+                "node": "DT13",
+                "weight": 0.472
+            }
+        ],
+        "network_count": 2.0
+    },
+    "CC14": {
+        "name": "Lorong Chuan",
+        "station_codes": "CC14",
+        "coordinates": [
+            103.863395,
+            1.351488
+        ],
+        "adjacency": [
+            {
+                "node": "CC13",
+                "weight": 1.168
+            },
+            {
+                "node": "CC15",
+                "weight": 1.682
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC10-DT26": {
+        "name": "MacPherson",
+        "station_codes": "CC10-DT26",
+        "coordinates": [
+            103.890102,
+            1.326728
+        ],
+        "adjacency": [
+            {
+                "node": "CC9",
+                "weight": 0.996
+            },
+            {
+                "node": "CC11",
+                "weight": 0.931
+            },
+            {
+                "node": "DT25",
+                "weight": 0.795
+            },
+            {
+                "node": "DT27",
+                "weight": 1.085
+            }
+        ],
+        "network_count": 2.0
+    },
+    "NS27-CE2-TE20": {
+        "name": "Marina Bay",
+        "station_codes": "NS27-CE2-TE20",
+        "coordinates": [
+            103.854751,
+            1.275171
+        ],
+        "adjacency": [
+            {
+                "node": "NS26",
+                "weight": 1.09
+            },
+            {
+                "node": "NS28",
+                "weight": 0.964
+            },
+            {
+                "node": "CE1",
+                "weight": 0.988
+            },
+            {
+                "node": "TE19",
+                "weight": 0.543
+            }
+        ],
+        "network_count": 3.0
+    },
+    "NS28": {
+        "name": "Marina South Pier",
+        "station_codes": "NS28",
+        "coordinates": [
+            103.862723,
+            1.27175
+        ],
+        "adjacency": [
+            {
+                "node": "NS27",
+                "weight": 0.964
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE26": {
+        "name": "Marine Parade",
+        "station_codes": "TE26",
+        "coordinates": [
+            103.904983,
+            1.302612
+        ],
+        "adjacency": [
+            {
+                "node": "TE25",
+                "weight": 0.922
+            },
+            {
+                "node": "TE27",
+                "weight": 1.212
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE27": {
+        "name": "Marine Terrace",
+        "station_codes": "TE27",
+        "coordinates": [
+            103.915107,
+            1.306665
+        ],
+        "adjacency": [
+            {
+                "node": "TE26",
+                "weight": 1.212
+            },
+            {
+                "node": "TE28",
+                "weight": 1.7
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS8": {
+        "name": "Marsiling",
+        "station_codes": "NS8",
+        "coordinates": [
+            103.774216,
+            1.432542
+        ],
+        "adjacency": [
+            {
+                "node": "NS7",
+                "weight": 1.584
+            },
+            {
+                "node": "NS9",
+                "weight": 1.59
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC16": {
+        "name": "Marymount",
+        "station_codes": "CC16",
+        "coordinates": [
+            103.839238,
+            1.348614
+        ],
+        "adjacency": [
+            {
+                "node": "CC15",
+                "weight": 1.052
+            },
+            {
+                "node": "CC17",
+                "weight": 1.219
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT25": {
+        "name": "Mattar",
+        "station_codes": "DT25",
+        "coordinates": [
+            103.882958,
+            1.326969
+        ],
+        "adjacency": [
+            {
+                "node": "DT24",
+                "weight": 1.358
+            },
+            {
+                "node": "DT26",
+                "weight": 0.795
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE18": {
+        "name": "Maxwell",
+        "station_codes": "TE18",
+        "coordinates": [
+            103.844008,
+            1.280685
+        ],
+        "adjacency": [
+            {
+                "node": "TE17",
+                "weight": 0.419
+            },
+            {
+                "node": "TE19",
+                "weight": 0.801
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE6": {
+        "name": "Mayflower",
+        "station_codes": "TE6",
+        "coordinates": [
+            103.836789,
+            1.372151
+        ],
+        "adjacency": [
+            {
+                "node": "TE5",
+                "weight": 1.4
+            },
+            {
+                "node": "TE7",
+                "weight": 1.063
+            }
+        ],
+        "network_count": 1.0
+    },
+    "PE2": {
+        "name": "Meridian",
+        "station_codes": "PE2",
+        "coordinates": [
+            103.908874,
+            1.396976
+        ],
+        "adjacency": [
+            {
+                "node": "PE1",
+                "weight": 0.435
+            },
+            {
+                "node": "PE3",
+                "weight": 0.543
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC7": {
+        "name": "Mountbatten",
+        "station_codes": "CC7",
+        "coordinates": [
+            103.882496,
+            1.306249
+        ],
+        "adjacency": [
+            {
+                "node": "CC6",
+                "weight": 0.871
+            },
+            {
+                "node": "CC8",
+                "weight": 0.692
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE12": {
+        "name": "Napier",
+        "station_codes": "TE12",
+        "coordinates": [
+            103.819006,
+            1.307087
+        ],
+        "adjacency": [
+            {
+                "node": "TE11",
+                "weight": 1.624
+            },
+            {
+                "node": "TE13",
+                "weight": 0.762
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS21-DT11": {
+        "name": "Newton",
+        "station_codes": "NS21-DT11",
+        "coordinates": [
+            103.838864,
+            1.31296
+        ],
+        "adjacency": [
+            {
+                "node": "NS20",
+                "weight": 0.945
+            },
+            {
+                "node": "NS22",
+                "weight": 1.326
+            },
+            {
+                "node": "DT10",
+                "weight": 1.693
+            },
+            {
+                "node": "DT12",
+                "weight": 1.36
+            }
+        ],
+        "network_count": 2.0
+    },
+    "PW5": {
+        "name": "Nibong",
+        "station_codes": "PW5",
+        "coordinates": [
+            103.900305,
+            1.411831
+        ],
+        "adjacency": [
+            {
+                "node": "PW4",
+                "weight": 0.506
+            },
+            {
+                "node": "PW6",
+                "weight": 0.416
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC5": {
+        "name": "Nicoll Highway",
+        "station_codes": "CC5",
+        "coordinates": [
+            103.8635,
+            1.299671
+        ],
+        "adjacency": [
+            {
+                "node": "CC4",
+                "weight": 0.746
+            },
+            {
+                "node": "CC6",
+                "weight": 1.371
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS20": {
+        "name": "Novena",
+        "station_codes": "NS20",
+        "coordinates": [
+            103.843492,
+            1.320084
+        ],
+        "adjacency": [
+            {
+                "node": "NS19",
+                "weight": 1.423
+            },
+            {
+                "node": "NS21",
+                "weight": 0.945
+            }
+        ],
+        "network_count": 1.0
+    },
+    "PE6": {
+        "name": "Oasis",
+        "station_codes": "PE6",
+        "coordinates": [
+            103.912684,
+            1.402317
+        ],
+        "adjacency": [
+            {
+                "node": "PE5",
+                "weight": 0.516
+            },
+            {
+                "node": "PE7",
+                "weight": 0.565
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC23": {
+        "name": "one-north",
+        "station_codes": "CC23",
+        "coordinates": [
+            103.787241,
+            1.299607
+        ],
+        "adjacency": [
+            {
+                "node": "CC22",
+                "weight": 0.934
+            },
+            {
+                "node": "CC24",
+                "weight": 0.768
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS22-TE14": {
+        "name": "Orchard",
+        "station_codes": "NS22-TE14",
+        "coordinates": [
+            103.831982,
+            1.303223
+        ],
+        "adjacency": [
+            {
+                "node": "NS21",
+                "weight": 1.326
+            },
+            {
+                "node": "NS23",
+                "weight": 0.793
+            },
+            {
+                "node": "TE13",
+                "weight": 0.89
+            },
+            {
+                "node": "TE15",
+                "weight": 0.971
+            }
+        ],
+        "network_count": 2.0
+    },
+    "TE13": {
+        "name": "Orchard Boulevard",
+        "station_codes": "TE13",
+        "coordinates": [
+            103.824014,
+            1.302406
+        ],
+        "adjacency": [
+            {
+                "node": "TE12",
+                "weight": 0.762
+            },
+            {
+                "node": "TE14",
+                "weight": 0.89
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW16-NE3-TE17": {
+        "name": "Outram Park",
+        "station_codes": "EW16-NE3-TE17",
+        "coordinates": [
+            103.840241,
+            1.280685
+        ],
+        "adjacency": [
+            {
+                "node": "EW15",
+                "weight": 0.776
+            },
+            {
+                "node": "EW17",
+                "weight": 1.524
+            },
+            {
+                "node": "NE4",
+                "weight": 0.638
+            },
+            {
+                "node": "TE16",
+                "weight": 1.049
+            },
+            {
+                "node": "TE18",
+                "weight": 0.419
+            }
+        ],
+        "network_count": 3.0
+    },
+    "CC26": {
+        "name": "Pasir Panjang",
+        "station_codes": "CC26",
+        "coordinates": [
+            103.791614,
+            1.276177
+        ],
+        "adjacency": [
+            {
+                "node": "CC25",
+                "weight": 1.31
+            },
+            {
+                "node": "CC27",
+                "weight": 1.313
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW1": {
+        "name": "Pasir Ris",
+        "station_codes": "EW1",
+        "coordinates": [
+            103.949255,
+            1.373031
+        ],
+        "adjacency": [
+            {
+                "node": "EW2",
+                "weight": 2.234
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW8-CC9": {
+        "name": "Paya Lebar",
+        "station_codes": "EW8-CC9",
+        "coordinates": [
+            103.892318,
+            1.31805
+        ],
+        "adjacency": [
+            {
+                "node": "EW7",
+                "weight": 1.21
+            },
+            {
+                "node": "EW9",
+                "weight": 1.091
+            },
+            {
+                "node": "CC8",
+                "weight": 1.158
+            },
+            {
+                "node": "CC10",
+                "weight": 0.996
+            }
+        ],
+        "network_count": 2.0
+    },
+    "BP8": {
+        "name": "Pending",
+        "station_codes": "BP8",
+        "coordinates": [
+            103.771259,
+            1.376184
+        ],
+        "adjacency": [
+            {
+                "node": "BP7",
+                "weight": 0.543
+            },
+            {
+                "node": "BP9",
+                "weight": 0.457
+            }
+        ],
+        "network_count": 1.0
+    },
+    "BP7": {
+        "name": "Petir",
+        "station_codes": "BP7",
+        "coordinates": [
+            103.766634,
+            1.377756
+        ],
+        "adjacency": [
+            {
+                "node": "BP6",
+                "weight": 0.503
+            },
+            {
+                "node": "BP8",
+                "weight": 0.543
+            }
+        ],
+        "network_count": 1.0
+    },
+    "BP5": {
+        "name": "Phoenix",
+        "station_codes": "BP5",
+        "coordinates": [
+            103.758008,
+            1.378616
+        ],
+        "adjacency": [
+            {
+                "node": "BP4",
+                "weight": 0.531
+            },
+            {
+                "node": "BP6",
+                "weight": 0.46
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW28": {
+        "name": "Pioneer",
+        "station_codes": "EW28",
+        "coordinates": [
+            103.697354,
+            1.337575
+        ],
+        "adjacency": [
+            {
+                "node": "EW27",
+                "weight": 0.942
+            },
+            {
+                "node": "EW29",
+                "weight": 2.386
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NE10": {
+        "name": "Potong Pasir",
+        "station_codes": "NE10",
+        "coordinates": [
+            103.869093,
+            1.331254
+        ],
+        "adjacency": [
+            {
+                "node": "NE9",
+                "weight": 1.524
+            },
+            {
+                "node": "NE11",
+                "weight": 0.902
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC4-DT15": {
+        "name": "Promenade",
+        "station_codes": "CC4-DT15",
+        "coordinates": [
+            103.860151,
+            1.293854
+        ],
+        "adjacency": [
+            {
+                "node": "CC3",
+                "weight": 0.469
+            },
+            {
+                "node": "CC5",
+                "weight": 0.746
+            },
+            {
+                "node": "DT14",
+                "weight": 0.869
+            },
+            {
+                "node": "DT16",
+                "weight": 1.259
+            }
+        ],
+        "network_count": 2.0
+    },
+    "NE17-PTC": {
+        "name": "Punggol",
+        "station_codes": "NE17-PTC",
+        "coordinates": [
+            103.902354,
+            1.405255
+        ],
+        "adjacency": [
+            {
+                "node": "NE16",
+                "weight": 1.736
+            },
+            {
+                "node": "NE18",
+                "weight": 1.402
+            }
+        ],
+        "network_count": 2.0
+    },
+    "NE18": {
+        "name": "Punggol Coast",
+        "station_codes": "NE18",
+        "coordinates": [
+            103.910329,
+            1.415018
+        ],
+        "adjacency": [
+            {
+                "node": "NE17",
+                "weight": 1.402
+            }
+        ],
+        "network_count": 1.0
+    },
+    "PW3": {
+        "name": "Punggol Point",
+        "station_codes": "PW3",
+        "coordinates": [
+            103.906664,
+            1.416845
+        ],
+        "adjacency": [
+            {
+                "node": "PW2",
+                "weight": 0.46
+            },
+            {
+                "node": "PW4",
+                "weight": 0.507
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW19": {
+        "name": "Queenstown",
+        "station_codes": "EW19",
+        "coordinates": [
+            103.806052,
+            1.294552
+        ],
+        "adjacency": [
+            {
+                "node": "EW18",
+                "weight": 1.309
+            },
+            {
+                "node": "EW20",
+                "weight": 1.229
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS26-EW14": {
+        "name": "Raffles Place",
+        "station_codes": "NS26-EW14",
+        "coordinates": [
+            103.85147,
+            1.284409
+        ],
+        "adjacency": [
+            {
+                "node": "NS25",
+                "weight": 0.98
+            },
+            {
+                "node": "NS27",
+                "weight": 1.09
+            },
+            {
+                "node": "EW13",
+                "weight": 0.98
+            },
+            {
+                "node": "EW15",
+                "weight": 1.07
+            }
+        ],
+        "network_count": 2.0
+    },
+    "SE5": {
+        "name": "Ranggung",
+        "station_codes": "SE5",
+        "coordinates": [
+            103.897349,
+            1.38403
+        ],
+        "adjacency": [
+            {
+                "node": "SE4",
+                "weight": 0.54
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW18": {
+        "name": "Redhill",
+        "station_codes": "EW18",
+        "coordinates": [
+            103.816757,
+            1.289653
+        ],
+        "adjacency": [
+            {
+                "node": "EW17",
+                "weight": 1.273
+            },
+            {
+                "node": "EW19",
+                "weight": 1.309
+            }
+        ],
+        "network_count": 1.0
+    },
+    "SW8": {
+        "name": "Renjong",
+        "station_codes": "SW8",
+        "coordinates": [
+            103.890485,
+            1.386708
+        ],
+        "adjacency": [
+            {
+                "node": "SW7",
+                "weight": 0.603
+            }
+        ],
+        "network_count": 1.0
+    },
+    "PE4": {
+        "name": "Riviera",
+        "station_codes": "PE4",
+        "coordinates": [
+            103.916135,
+            1.394581
+        ],
+        "adjacency": [
+            {
+                "node": "PE3",
+                "weight": 0.396
+            },
+            {
+                "node": "PE5",
+                "weight": 0.559
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT13": {
+        "name": "Rochor",
+        "station_codes": "DT13",
+        "coordinates": [
+            103.852634,
+            1.303951
+        ],
+        "adjacency": [
+            {
+                "node": "DT12",
+                "weight": 0.472
+            },
+            {
+                "node": "DT14",
+                "weight": 0.541
+            }
+        ],
+        "network_count": 1.0
+    },
+    "SE2": {
+        "name": "Rumbia",
+        "station_codes": "SE2",
+        "coordinates": [
+            103.905937,
+            1.391509
+        ],
+        "adjacency": [
+            {
+                "node": "SE1",
+                "weight": 0.697
+            },
+            {
+                "node": "SE3",
+                "weight": 0.391
+            }
+        ],
+        "network_count": 1.0
+    },
+    "PW1": {
+        "name": "Sam Kee",
+        "station_codes": "PW1",
+        "coordinates": [
+            103.904583,
+            1.40975
+        ],
+        "adjacency": [
+            {
+                "node": "PW2",
+                "weight": 0.401
+            }
+        ],
+        "network_count": 1.0
+    },
+    "PW4": {
+        "name": "Samudera",
+        "station_codes": "PW4",
+        "coordinates": [
+            103.90219,
+            1.415976
+        ],
+        "adjacency": [
+            {
+                "node": "PW3",
+                "weight": 0.507
+            },
+            {
+                "node": "PW5",
+                "weight": 0.506
+            }
+        ],
+        "network_count": 1.0
+    },
+    "BP11": {
+        "name": "Segar",
+        "station_codes": "BP11",
+        "coordinates": [
+            103.769593,
+            1.387792
+        ],
+        "adjacency": [
+            {
+                "node": "BP10",
+                "weight": 0.385
+            },
+            {
+                "node": "BP12",
+                "weight": 0.578
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS11": {
+        "name": "Sembawang",
+        "station_codes": "NS11",
+        "coordinates": [
+            103.820056,
+            1.449093
+        ],
+        "adjacency": [
+            {
+                "node": "NS10",
+                "weight": 2.322
+            },
+            {
+                "node": "NS12",
+                "weight": 1.228
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NE16-STC": {
+        "name": "Sengkang",
+        "station_codes": "NE16-STC",
+        "coordinates": [
+            103.895294,
+            1.39133
+        ],
+        "adjacency": [
+            {
+                "node": "NE15",
+                "weight": 0.953
+            },
+            {
+                "node": "NE17",
+                "weight": 1.736
+            }
+        ],
+        "network_count": 2.0
+    },
+    "BP13": {
+        "name": "Senja",
+        "station_codes": "BP13",
+        "coordinates": [
+            103.762382,
+            1.382678
+        ],
+        "adjacency": [
+            {
+                "node": "BP12",
+                "weight": 0.505
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NE12-CC13": {
+        "name": "Serangoon",
+        "station_codes": "NE12-CC13",
+        "coordinates": [
+            103.873771,
+            1.349807
+        ],
+        "adjacency": [
+            {
+                "node": "NE11",
+                "weight": 1.227
+            },
+            {
+                "node": "NE13",
+                "weight": 1.674
+            },
+            {
+                "node": "CC12",
+                "weight": 1.106
+            },
+            {
+                "node": "CC14",
+                "weight": 1.168
+            }
+        ],
+        "network_count": 2.0
+    },
+    "TE19": {
+        "name": "Shenton Way",
+        "station_codes": "TE19",
+        "coordinates": [
+            103.850548,
+            1.277661
+        ],
+        "adjacency": [
+            {
+                "node": "TE18",
+                "weight": 0.801
+            },
+            {
+                "node": "TE20",
+                "weight": 0.543
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE28": {
+        "name": "Siglap",
+        "station_codes": "TE28",
+        "coordinates": [
+            103.930026,
+            1.310009
+        ],
+        "adjacency": [
+            {
+                "node": "TE27",
+                "weight": 1.7
+            },
+            {
+                "node": "TE29",
+                "weight": 1.409
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW3": {
+        "name": "Simei",
+        "station_codes": "EW3",
+        "coordinates": [
+            103.953376,
+            1.343179
+        ],
+        "adjacency": [
+            {
+                "node": "EW2",
+                "weight": 1.461
+            },
+            {
+                "node": "EW4",
+                "weight": 1.927
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT7": {
+        "name": "Sixth Avenue",
+        "station_codes": "DT7",
+        "coordinates": [
+            103.797225,
+            1.330591
+        ],
+        "adjacency": [
+            {
+                "node": "DT6",
+                "weight": 1.558
+            },
+            {
+                "node": "DT8",
+                "weight": 1.29
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS23": {
+        "name": "Somerset",
+        "station_codes": "NS23",
+        "coordinates": [
+            103.838504,
+            1.300328
+        ],
+        "adjacency": [
+            {
+                "node": "NS22",
+                "weight": 0.793
+            },
+            {
+                "node": "NS24",
+                "weight": 0.744
+            }
+        ],
+        "network_count": 1.0
+    },
+    "PW7": {
+        "name": "Soo Teck",
+        "station_codes": "PW7",
+        "coordinates": [
+            103.897237,
+            1.405394
+        ],
+        "adjacency": [
+            {
+                "node": "PW6",
+                "weight": 0.378
+            }
+        ],
+        "network_count": 1.0
+    },
+    "BP2": {
+        "name": "South View",
+        "station_codes": "BP2",
+        "coordinates": [
+            103.745285,
+            1.38026
+        ],
+        "adjacency": [
+            {
+                "node": "BP1",
+                "weight": 0.506
+            },
+            {
+                "node": "BP3",
+                "weight": 0.455
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE4": {
+        "name": "Springleaf",
+        "station_codes": "TE4",
+        "coordinates": [
+            103.817932,
+            1.397771
+        ],
+        "adjacency": [
+            {
+                "node": "TE3",
+                "weight": 4.192
+            },
+            {
+                "node": "TE5",
+                "weight": 2.533
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC6": {
+        "name": "Stadium",
+        "station_codes": "CC6",
+        "coordinates": [
+            103.87539,
+            1.302946
+        ],
+        "adjacency": [
+            {
+                "node": "CC5",
+                "weight": 1.371
+            },
+            {
+                "node": "CC7",
+                "weight": 0.871
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT10-TE11": {
+        "name": "Stevens",
+        "station_codes": "DT10-TE11",
+        "coordinates": [
+            103.825461,
+            1.320192
+        ],
+        "adjacency": [
+            {
+                "node": "DT9",
+                "weight": 1.111
+            },
+            {
+                "node": "DT11",
+                "weight": 1.693
+            },
+            {
+                "node": "TE12",
+                "weight": 1.624
+            }
+        ],
+        "network_count": 2.0
+    },
+    "PW6": {
+        "name": "Sumang",
+        "station_codes": "PW6",
+        "coordinates": [
+            103.898534,
+            1.408532
+        ],
+        "adjacency": [
+            {
+                "node": "PW5",
+                "weight": 0.416
+            },
+            {
+                "node": "PW7",
+                "weight": 0.378
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC11": {
+        "name": "Tai Seng",
+        "station_codes": "CC11",
+        "coordinates": [
+            103.88815,
+            1.334866
+        ],
+        "adjacency": [
+            {
+                "node": "CC10",
+                "weight": 0.931
+            },
+            {
+                "node": "CC12",
+                "weight": 1.201
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW2-DT32": {
+        "name": "Tampines",
+        "station_codes": "EW2-DT32",
+        "coordinates": [
+            103.945084,
+            1.353374
+        ],
+        "adjacency": [
+            {
+                "node": "EW1",
+                "weight": 2.234
+            },
+            {
+                "node": "EW3",
+                "weight": 1.461
+            },
+            {
+                "node": "DT31",
+                "weight": 1.135
+            },
+            {
+                "node": "DT33",
+                "weight": 1.14
+            }
+        ],
+        "network_count": 2.0
+    },
+    "DT33": {
+        "name": "Tampines East",
+        "station_codes": "DT33",
+        "coordinates": [
+            103.954976,
+            1.356084
+        ],
+        "adjacency": [
+            {
+                "node": "DT32",
+                "weight": 1.14
+            },
+            {
+                "node": "DT34",
+                "weight": 1.746
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT31": {
+        "name": "Tampines West",
+        "station_codes": "DT31",
+        "coordinates": [
+            103.93856,
+            1.345519
+        ],
+        "adjacency": [
+            {
+                "node": "DT30",
+                "weight": 1.267
+            },
+            {
+                "node": "DT32",
+                "weight": 1.135
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT8": {
+        "name": "Tan Kah Kee",
+        "station_codes": "DT8",
+        "coordinates": [
+            103.807753,
+            1.325701
+        ],
+        "adjacency": [
+            {
+                "node": "DT7",
+                "weight": 1.29
+            },
+            {
+                "node": "DT9",
+                "weight": 0.955
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW4-CG": {
+        "name": "Tanah Merah",
+        "station_codes": "EW4-CG",
+        "coordinates": [
+            103.946513,
+            1.327262
+        ],
+        "adjacency": [
+            {
+                "node": "EW3",
+                "weight": 1.927
+            },
+            {
+                "node": "EW5",
+                "weight": 1.873
+            }
+        ],
+        "network_count": 2.0
+    },
+    "TE25": {
+        "name": "Tanjong Katong",
+        "station_codes": "TE25",
+        "coordinates": [
+            103.897369,
+            1.299319
+        ],
+        "adjacency": [
+            {
+                "node": "TE24",
+                "weight": 1.255
+            },
+            {
+                "node": "TE26",
+                "weight": 0.922
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW15": {
+        "name": "Tanjong Pagar",
+        "station_codes": "EW15",
+        "coordinates": [
+            103.845884,
+            1.276574
+        ],
+        "adjacency": [
+            {
+                "node": "EW14",
+                "weight": 1.07
+            },
+            {
+                "node": "EW16",
+                "weight": 0.776
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE23": {
+        "name": "Tanjong Rhu",
+        "station_codes": "TE23",
+        "coordinates": [
+            103.873453,
+            1.297265
+        ],
+        "adjacency": [
+            {
+                "node": "TE22",
+                "weight": 2.068
+            },
+            {
+                "node": "TE24",
+                "weight": 1.416
+            }
+        ],
+        "network_count": 1.0
+    },
+    "PW2": {
+        "name": "Teck Lee",
+        "station_codes": "PW2",
+        "coordinates": [
+            103.906653,
+            1.412705
+        ],
+        "adjacency": [
+            {
+                "node": "PW1",
+                "weight": 0.401
+            },
+            {
+                "node": "PW3",
+                "weight": 0.46
+            }
+        ],
+        "network_count": 1.0
+    },
+    "BP4": {
+        "name": "Teck Whye",
+        "station_codes": "BP4",
+        "coordinates": [
+            103.753647,
+            1.37667
+        ],
+        "adjacency": [
+            {
+                "node": "BP3",
+                "weight": 0.556
+            },
+            {
+                "node": "BP5",
+                "weight": 0.531
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT18": {
+        "name": "Telok Ayer",
+        "station_codes": "DT18",
+        "coordinates": [
+            103.848744,
+            1.282123
+        ],
+        "adjacency": [
+            {
+                "node": "DT17",
+                "weight": 0.607
+            },
+            {
+                "node": "DT19",
+                "weight": 0.618
+            }
+        ],
+        "network_count": 1.0
+    },
+    "CC28": {
+        "name": "Telok Blangah",
+        "station_codes": "CC28",
+        "coordinates": [
+            103.809863,
+            1.270586
+        ],
+        "adjacency": [
+            {
+                "node": "CC27",
+                "weight": 0.811
+            },
+            {
+                "node": "CC29",
+                "weight": 1.509
+            }
+        ],
+        "network_count": 1.0
+    },
+    "SW4": {
+        "name": "Thanggam",
+        "station_codes": "SW4",
+        "coordinates": [
+            103.875645,
+            1.397434
+        ],
+        "adjacency": [
+            {
+                "node": "SW3",
+                "weight": 0.628
+            },
+            {
+                "node": "SW5",
+                "weight": 0.618
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW17": {
+        "name": "Tiong Bahru",
+        "station_codes": "EW17",
+        "coordinates": [
+            103.827642,
+            1.286095
+        ],
+        "adjacency": [
+            {
+                "node": "EW16",
+                "weight": 1.524
+            },
+            {
+                "node": "EW18",
+                "weight": 1.273
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS19": {
+        "name": "Toa Payoh",
+        "station_codes": "NS19",
+        "coordinates": [
+            103.847327,
+            1.332297
+        ],
+        "adjacency": [
+            {
+                "node": "NS18",
+                "weight": 0.925
+            },
+            {
+                "node": "NS20",
+                "weight": 1.423
+            }
+        ],
+        "network_count": 1.0
+    },
+    "SW7": {
+        "name": "Tongkang",
+        "station_codes": "SW7",
+        "coordinates": [
+            103.885807,
+            1.389445
+        ],
+        "adjacency": [
+            {
+                "node": "SW6",
+                "weight": 0.703
+            },
+            {
+                "node": "SW8",
+                "weight": 0.603
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW31": {
+        "name": "Tuas Crescent",
+        "station_codes": "EW31",
+        "coordinates": [
+            103.649575,
+            1.320811
+        ],
+        "adjacency": [
+            {
+                "node": "EW30",
+                "weight": 1.215
+            },
+            {
+                "node": "EW32",
+                "weight": 1.425
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW33": {
+        "name": "Tuas Link",
+        "station_codes": "EW33",
+        "coordinates": [
+            103.636961,
+            1.340429
+        ],
+        "adjacency": [
+            {
+                "node": "EW32",
+                "weight": 1.266
+            }
+        ],
+        "network_count": 1.0
+    },
+    "EW32": {
+        "name": "Tuas West Road",
+        "station_codes": "EW32",
+        "coordinates": [
+            103.640149,
+            1.329495
+        ],
+        "adjacency": [
+            {
+                "node": "EW31",
+                "weight": 1.425
+            },
+            {
+                "node": "EW33",
+                "weight": 1.266
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT27": {
+        "name": "Ubi",
+        "station_codes": "DT27",
+        "coordinates": [
+            103.899379,
+            1.329763
+        ],
+        "adjacency": [
+            {
+                "node": "DT26",
+                "weight": 1.085
+            },
+            {
+                "node": "DT28",
+                "weight": 1.181
+            }
+        ],
+        "network_count": 1.0
+    },
+    "DT34": {
+        "name": "Upper Changi",
+        "station_codes": "DT34",
+        "coordinates": [
+            103.961263,
+            1.34169
+        ],
+        "adjacency": [
+            {
+                "node": "DT33",
+                "weight": 1.746
+            },
+            {
+                "node": "DT35",
+                "weight": 0.681
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE8": {
+        "name": "Upper Thomson",
+        "station_codes": "TE8",
+        "coordinates": [
+            103.832819,
+            1.354486
+        ],
+        "adjacency": [
+            {
+                "node": "TE7",
+                "weight": 0.997
+            },
+            {
+                "node": "TE9",
+                "weight": 2.032
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS9-TE2": {
+        "name": "Woodlands",
+        "station_codes": "NS9-TE2",
+        "coordinates": [
+            103.787675,
+            1.437388
+        ],
+        "adjacency": [
+            {
+                "node": "NS8",
+                "weight": 1.59
+            },
+            {
+                "node": "NS10",
+                "weight": 1.52
+            },
+            {
+                "node": "TE1",
+                "weight": 1.275
+            },
+            {
+                "node": "TE3",
+                "weight": 1.356
+            }
+        ],
+        "network_count": 2.0
+    },
+    "TE1": {
+        "name": "Woodlands North",
+        "station_codes": "TE1",
+        "coordinates": [
+            103.785519,
+            1.448646
+        ],
+        "adjacency": [
+            {
+                "node": "TE2",
+                "weight": 1.275
+            }
+        ],
+        "network_count": 1.0
+    },
+    "TE3": {
+        "name": "Woodlands South",
+        "station_codes": "TE3",
+        "coordinates": [
+            103.794295,
+            1.427145
+        ],
+        "adjacency": [
+            {
+                "node": "TE2",
+                "weight": 1.356
+            },
+            {
+                "node": "TE4",
+                "weight": 4.192
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NE11": {
+        "name": "Woodleigh",
+        "station_codes": "NE11",
+        "coordinates": [
+            103.870754,
+            1.339197
+        ],
+        "adjacency": [
+            {
+                "node": "NE10",
+                "weight": 0.902
+            },
+            {
+                "node": "NE12",
+                "weight": 1.227
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS5": {
+        "name": "Yew Tee",
+        "station_codes": "NS5",
+        "coordinates": [
+            103.747401,
+            1.397461
+        ],
+        "adjacency": [
+            {
+                "node": "NS4",
+                "weight": 1.449
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS15": {
+        "name": "Yio Chu Kang",
+        "station_codes": "NS15",
+        "coordinates": [
+            103.844965,
+            1.38178
+        ],
+        "adjacency": [
+            {
+                "node": "NS14",
+                "weight": 4.169
+            },
+            {
+                "node": "NS16",
+                "weight": 1.4
+            }
+        ],
+        "network_count": 1.0
+    },
+    "NS13": {
+        "name": "Yishun",
+        "station_codes": "NS13",
+        "coordinates": [
+            103.835028,
+            1.429384
+        ],
+        "adjacency": [
+            {
+                "node": "NS12",
+                "weight": 1.672
+            },
+            {
+                "node": "NS14",
+                "weight": 1.361
+            }
+        ],
+        "network_count": 1.0
+    }
+}
