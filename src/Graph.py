@@ -3,7 +3,7 @@ from math import radians, sin, cos, sqrt, atan2
 from scipy.spatial import KDTree
 from geopy.distance import geodesic
 import json
-from Algorithm import DFS
+from Algorithm import DFS, BFS
 class Graph():
     def __init__(self):
         self.nodes = {}  # node_id -> (lat, lon)
@@ -160,7 +160,10 @@ class Graph():
 g =  Graph()
 g.load_from_json(r"C:\Users\phank\PycharmProjects\INTRO_AI_IT3160_20252\res\mrt_graph.json")
 g.add_chosen_location((1.445, 103.805),(1.285, 103.860))
+bfs = BFS()
+total_nodes,path=bfs.run("Start","Dest",g)
+print(total_nodes,path)
 dfs = DFS()
-total_nodes,path=dfs.run("Start","Dest",g)
+total_nodes,path = dfs.run("Start","Dest",g)
 print(total_nodes,path)
 
