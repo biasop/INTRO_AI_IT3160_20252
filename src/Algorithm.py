@@ -1,5 +1,9 @@
 from abc import ABC, abstractmethod
 from queue import PriorityQueue, Queue
+
+from networkx.algorithms.shortest_paths.dense import reconstruct_path
+
+
 class Algorithm(ABC):
     def __init__(self):
         pass
@@ -17,11 +21,36 @@ class Algorithm(ABC):
         path.append(start)
         return path[::-1]
 
+    def calculate_path_distance(self, path,graph):
+        """
+        Tính tổng khoảng cách dựa trên trọng số (cost) có sẵn trong adj_list
+        """
+        if not path or len(path) < 2:
+            return 0.0
+
+        total_distance = 0.0
+
+        for i in range(len(path) - 1):
+            u = path[i]
+            v = path[i + 1]
+            # Tìm v trong danh sách hàng xóm của u để lấy cost
+            found = False
+            if u in graph.adj_list:
+                for neighbor_id, cost in graph.adj_list[u]:
+                    if neighbor_id == v:
+                        total_distance += cost
+                        found = True
+                        break
+
+            if not found:
+                # Trường hợp dự phòng nếu đồ thị có lỗi hoặc cạnh 1 chiều
+                print(f"Cảnh báo: Không tìm thấy cạnh nối từ {u} đến {v}")
+
+        return total_distance
 
 class DFS(Algorithm):
-    def __init__(self, graph=None):
+    def __init__(self):
         super().__init__()
-        self.graph = graph
 
     def run(self, start, goal, graph):
         if start in graph.obstacles or goal in graph.obstacles:
@@ -37,7 +66,9 @@ class DFS(Algorithm):
             count_node += 1
             current = open_set.pop()
             if current == goal:
-                return count_node, self.reconstruct_path(start, goal, came_from)
+                path = self.reconstruct_path(start,goal,came_from)
+                distance = self.calculate_path_distance(path,graph)
+                return count_node, distance, path
             for neighbor in graph.adj_list[current]:
                 neighbor_id = neighbor[0]
                 if neighbor_id in closed:
@@ -47,9 +78,8 @@ class DFS(Algorithm):
                 open_set.append(neighbor_id)
         return count_node, None
 class BFS(Algorithm):
-    def __init__(self, graph=None):
+    def __init__(self):
         super().__init__()
-        self.graph = graph
     def run(self, start, goal, graph):
         if start in graph.obstacles or goal in graph.obstacles:
             return 0, None
@@ -60,11 +90,12 @@ class BFS(Algorithm):
         closed = set()
         closed.add(start)
         while open_set:
-
+            count_node +=1
             current = open_set.pop(0)
             if current == goal:
                 path = self.reconstruct_path(start, goal, came_from)
-                return len(path), path
+                distance = self.calculate_path_distance(path,graph)
+                return count_node , distance , path
             for neighbor in graph.adj_list[current]:
                 neighbor_id = neighbor[0]
                 if neighbor_id in closed:
@@ -72,5 +103,4 @@ class BFS(Algorithm):
                 closed.add(neighbor_id)
                 came_from[neighbor_id] = current
                 open_set.append(neighbor_id)
-            print(open_set)
-        return count_node, None
+        return count_node, None , None

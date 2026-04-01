@@ -157,13 +157,5 @@ class Graph():
 
         print("🧹 Đồ thị đã được dọn dẹp (Reset về trạng thái MRT gốc).")
 
-g =  Graph()
-g.load_from_json(r"C:\Users\phank\PycharmProjects\INTRO_AI_IT3160_20252\res\mrt_graph.json")
-g.add_chosen_location((1.445, 103.805),(1.285, 103.860))
-bfs = BFS()
-total_nodes,path=bfs.run("Start","Dest",g)
-print(total_nodes,path)
-dfs = DFS()
-total_nodes,path = dfs.run("Start","Dest",g)
-print(total_nodes,path)
+
 
