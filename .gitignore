@@ -1,0 +1,3 @@
+# Chặn tất cả các thư mục __pycache__ ở bất cứ đâu (kể cả trong src/)
+**/__pycache__/
+*.pyc

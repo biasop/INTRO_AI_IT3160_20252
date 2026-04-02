@@ -1,7 +1,6 @@
 import math
 from math import radians, sin, cos, sqrt, atan2
 from scipy.spatial import KDTree
-from geopy.distance import geodesic
 import json
 from Algorithm import DFS, BFS
 class Graph():

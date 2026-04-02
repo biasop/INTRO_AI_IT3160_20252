@@ -1,18 +1,26 @@
-
 import osmnx as ox
 import threading
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import tkintermapview
 from Graph import Graph
 from Algorithm import *
 import time
+from pathlib import Path
+import customtkinter as ctk
 
-g =  Graph()
-g.load_from_json(r"C:\Users\phank\PycharmProjects\INTRO_AI_IT3160_20252\res\mrt_graph.json")
+# Lấy đường dẫn của thư mục chứa file code hiện tại (thư mục src)
+current_dir = Path(__file__).parent
 
-class App:
+# Lùi lại một thư mục cha, rồi trỏ tới file json trong thư mục res
+json_path = current_dir.parent / "res" / "mrt_graph.json"
+
+g = Graph()
+g.load_from_json(json_path)
+
+class App(ctk.CTk):
     def __init__(self, root):
+        super().__init__()
         self.root = root
         self.root.title("Singapore Path Finding")
         self.root.geometry("1000x600")
@@ -29,33 +37,12 @@ class App:
     # ===== UI SETUP =====
     def setup_ui(self):
         # LEFT PANEL
-        self.left_frame = tk.Frame(self.root, width=300, bg="lightgray")
+        self.left_frame = ctk.CTkFrame(self.root, width=300, corner_radius=0, fg_color="lightgray")
         self.left_frame.pack(side="left", fill="y")
-
-        tk.Label(
-            self.left_frame,
-            text="Chọn thuật toán",
-            bg="lightgray",
-            font=("Arial", 14)
-        ).pack(pady=10)
-
-        self.algo_var = tk.StringVar()
-        self.algo_box = ttk.Combobox(
-            self.left_frame,
-            textvariable=self.algo_var,
-            values=["BFS", "DFS", "Dijkstra", "A*"]
-        )
-        self.algo_box.pack(pady=10)
-        self.algo_box.current(0)
-
-        tk.Button(
-            self.left_frame,
-            text="Run",
-            command=self.run_algorithm
-        ).pack(pady=20)
+        self.left_frame.pack_propagate(False)
 
         # MAP (RIGHT)
-        self.map_widget = tkintermapview.TkinterMapView(self.root)
+        self.map_widget = tkintermapview.TkinterMapView(self.root, corner_radius=0)
         self.map_widget.pack(side="right", fill="both", expand=True)
 
         # Set Singapore
@@ -64,31 +51,84 @@ class App:
 
         # Bind click
         self.map_widget.add_left_click_map_command(self.on_map_click)
-        self.stats_frame = tk.LabelFrame(
-            self.left_frame,
-            text="Kết quả",
-            bg="lightgray",
-            font=("Arial", 12, "bold"),
-            pady=10
-        )
-        self.stats_frame.pack(pady=20, fill="x", padx=10)
+        
+        # Hiển thị menu ban đầu thay vì vào thẳng user
+        self.show_initial_menu()
 
-        self.distance_label = tk.Label(self.stats_frame, text="Khoảng cách: --", bg="lightgray", anchor="w")
-        self.distance_label.pack(fill="x", padx=5)
+    # ===== HÀM HỖ TRỢ MENU =====
+    def clear_left_frame(self):
+        """Xóa toàn bộ các widget đang nằm trong khung trái để vẽ menu mới"""
+        for widget in self.left_frame.winfo_children():
+            widget.destroy()
 
-        self.nodes_label = tk.Label(self.stats_frame, text="Số nút đã duyệt: --", bg="lightgray", anchor="w")
-        self.nodes_label.pack(fill="x", padx=5)
+    def show_initial_menu(self):
+        """Menu chọn chế độ ban đầu"""
+        self.clear_left_frame()
 
-        self.time_label = tk.Label(self.stats_frame, text="Thời gian tìm kiếm: --", bg="lightgray", anchor="w")
-        self.time_label.pack(fill="x", padx=5)
+        ctk.CTkLabel(self.left_frame, text="CHỌN CHẾ ĐỘ", font=("Arial", 20, "bold")).pack(pady=(50, 20))
+
+        ctk.CTkButton(self.left_frame, text="Chế độ Admin", command=self.show_admin_panel, width=200).pack(pady=10)
+        ctk.CTkButton(self.left_frame, text="Chế độ User", command=self.show_user_panel, width=200).pack(pady=10)
+
+    def show_admin_panel(self):
+        """Giao diện dành cho Admin (Đang chờ phát triển)"""
+        self.clear_left_frame()
+
+        ctk.CTkLabel(self.left_frame, text="CHẾ ĐỘ ADMIN", font=("Arial", 18, "bold"), text_color="#dc3545").pack(pady=(20, 10))
+        
+        ctk.CTkButton(self.left_frame, text="Thêm ga tàu", width=200).pack(pady=10)
+        ctk.CTkButton(self.left_frame, text="Chặn đường ray", width=200).pack(pady=10)
+
+        # Nút Quay lại
+        ctk.CTkButton(self.left_frame, text="← Quay lại", fg_color="gray", hover_color="#555555", width=200, command=self.show_initial_menu).pack(side="bottom", pady=20)
+
+    def show_user_panel(self):
+        """Giao diện tìm đường (User)"""
+        self.clear_left_frame()
+
+        # Tiêu đề
+        ctk.CTkLabel(self.left_frame, text="CHẾ ĐỘ USER", font=("Arial", 18, "bold"), text_color="#1f6aa5").pack(pady=(20, 10))
+        
+        ctk.CTkLabel(self.left_frame, text="Chọn thuật toán", font=("Arial", 14)).pack(pady=5)
+
+        # Combobox chọn thuật toán
+        self.algo_var = ctk.StringVar(value="BFS")
+        self.algo_box = ctk.CTkComboBox(self.left_frame, variable=self.algo_var, values=["BFS", "DFS", "Dijkstra", "A*"], width=200)
+        self.algo_box.pack(pady=5)
+
+        # Nút Run 
+        ctk.CTkButton(self.left_frame, text="Tìm đường", fg_color="#28a745", hover_color="#218838", width=200, command=self.run_algorithm).pack(pady=(20, 5))
+
+        # Nút Xóa bản đồ (Reset)
+        ctk.CTkButton(self.left_frame, text="Xóa bản đồ", fg_color="#dc3545", hover_color="#c82333", width=200, command=self.clear_map).pack(pady=5)
+
+        # Khung Thống kê
+        self.stats_frame = ctk.CTkFrame(self.left_frame, corner_radius=10)
+        self.stats_frame.pack(pady=20, fill="x", padx=15)
+
+        ctk.CTkLabel(self.stats_frame, text="KẾT QUẢ", font=("Arial", 14, "bold")).pack(pady=(10, 5))
+
+        self.distance_label = ctk.CTkLabel(self.stats_frame, text="Khoảng cách: --", anchor="w")
+        self.distance_label.pack(fill="x", padx=10, pady=2)
+
+        self.nodes_label = ctk.CTkLabel(self.stats_frame, text="Số nút đã duyệt: --", anchor="w")
+        self.nodes_label.pack(fill="x", padx=10, pady=2)
+
+        self.time_label = ctk.CTkLabel(self.stats_frame, text="Thời gian: --", anchor="w")
+        self.time_label.pack(fill="x", padx=10, pady=(2, 10))
+
+        # Nút Quay lại
+        ctk.CTkButton(self.left_frame, text="← Quay lại", fg_color="gray", hover_color="#555555", width=200, command=self.show_initial_menu).pack(side="bottom", pady=20)
+
+
     # ===== EVENT: CLICK =====
     def on_map_click(self, coords):
         lat, lon = coords
         if not (1.13 <= lat <= 1.47 and 103.59 <= lon <= 104.05):
             print("Ngoài phạm vi Singapore!")
-            # Bạn có thể dùng messagebox để hiện thông báo lỗi lên màn hình
-            tk.messagebox.showwarning("Lỗi", "Vui lòng chọn vị trí trong phạm vi Singapore!")
+            messagebox.showwarning("Lỗi", "Vui lòng chọn vị trí trong phạm vi Singapore!")
             return
+            
         if self.start_marker is None:
             self.start_pos = (lat, lon)
             self.start_marker = self.map_widget.set_marker(lat, lon, text="Start")
@@ -98,11 +138,10 @@ class App:
             self.end_pos = (lat, lon)
             self.end_marker = self.map_widget.set_marker(lat, lon, text="End")
             print("End:", self.end_pos)
-
         else:
             self.reset_map(lat, lon)
 
-    # ===== RESET =====
+    # ===== RESET & XỬ LÝ =====
     def reset_map(self, lat, lon):
         self.map_widget.delete_all_marker()
         self.map_widget.delete_all_path()
@@ -111,11 +150,33 @@ class App:
 
         self.end_marker = None
         self.end_pos = None
+        
+        # Reset lại Label nếu giao diện User đang mở
+        if hasattr(self, 'distance_label') and self.distance_label.winfo_exists():
+            self.distance_label.configure(text="Khoảng cách: --")
+            self.nodes_label.configure(text="Số nút đã duyệt: --")
+            self.time_label.configure(text="Thời gian: --")
 
         print("Reset → Start:", self.start_pos)
+        
+    def clear_map(self):
+        """Hàm dọn dẹp sạch sẽ toàn bộ bản đồ"""
+        self.map_widget.delete_all_marker()
+        self.map_widget.delete_all_path()
+        self.start_marker = None
+        self.end_marker = None
+        self.start_pos = None
+        self.end_pos = None
+        
+        if hasattr(self, 'distance_label') and self.distance_label.winfo_exists():
+            self.distance_label.configure(text="Khoảng cách: --")
+            self.nodes_label.configure(text="Số nút đã duyệt: --")
+            self.time_label.configure(text="Thời gian: --")
+
     def run_algorithm(self):
         if not self.start_pos or not self.end_pos:
             print("Chưa chọn đủ điểm!")
+            messagebox.showwarning("Thiếu điểm", "Vui lòng click chọn điểm Start và End trên bản đồ trước khi Tìm đường!")
             return
 
         # Thêm vị trí Start/Dest vào đồ thị
@@ -129,17 +190,16 @@ class App:
         elif selected_algo == "DFS":
             algo = DFS()
         elif selected_algo == "Dijkstra":
-            pass
+            algo = Dijkstra() 
         elif selected_algo == "A*":
-            pass
+            algo = AStar()    
         else:
-            algo = BFS() # Mặc định nếu có lỗi
+            algo = BFS() 
 
         # 2. Bắt đầu đo thời gian
         start_time = time.perf_counter()
 
         # 3. Chạy thuật toán đã chọn
-        # Đảm bảo các class BFS, DFS, Dijkstra, AStar đều trả về (nodes, dist, path)
         total_nodes, distance, path = algo.run("Start", "Dest", g)
 
         # 4. Kết thúc đo thời gian
@@ -149,7 +209,6 @@ class App:
         # 5. Cập nhật UI
         if path:
             self.draw_path(path)
-            # Làm tròn số cho đẹp giao diện
             self.distance_label.configure(text=f"Khoảng cách: {distance:.2f} km")
             self.nodes_label.configure(text=f"Số nút đã duyệt: {total_nodes}")
             self.time_label.configure(text=f"Thời gian tìm kiếm: {execution_time:.3f} ms")
@@ -157,12 +216,7 @@ class App:
             self.distance_label.configure(text="Khoảng cách: Không tìm thấy!")
             self.nodes_label.configure(text="Số nút đã duyệt: 0")
             self.time_label.configure(text="Thời gian: -- ms")
-
-
-    # ===== DEMO PATH =====
-    def fake_path(self):
-        # demo: đường thẳng giữa 2 điểm
-        return [self.start_pos, self.end_pos]
+            messagebox.showinfo("Kết quả", "Không tìm thấy đường đi giữa 2 điểm này trên mạng lưới MRT!")
 
     def draw_path(self, path):
         # 1. Xóa đường đi cũ
@@ -184,12 +238,8 @@ class App:
                         coords[0],
                         coords[1],
                         text="",
-                        # Để tạo dấu chấm nhỏ, ta dùng kích thước vòng tròn (radius)
-                        # Thay vì icon_size, ta dùng các tham số sau:
                         marker_color_circle="white",
                         marker_color_outside="#e67e22",
-                        # Nếu muốn chấm nhỏ hơn nữa, bạn có thể thử thêm tham số font
-                        # hoặc để mặc định vì không có text nó sẽ chỉ hiện vòng tròn màu.
                     )
             else:
                 print(f"Cảnh báo: Không tìm thấy tọa độ cho {node_id}")
@@ -201,7 +251,6 @@ class App:
                 color="#3498db",
                 width=2
             )
-
 
 # ===== MAIN =====
 if __name__ == "__main__":
