@@ -104,3 +104,115 @@ class BFS(Algorithm):
                 came_from[neighbor_id] = current
                 open_set.append(neighbor_id)
         return count_node, None , None
+
+class AStar(Algorithm):
+    def __init__(self):
+        super().__init__()
+
+    def run(self, start, goal, graph):
+        count_node = 0
+        # Priority Queue: (chi_phi_tich_luy, node_id)
+        # Bản chất: Nhặt giá trị chi_phi_tich_luy (g_score) nhỏ nhất lên đầu
+        open_queue = PriorityQueue()
+        open_queue.put((0, start))
+
+        # Để kiểm tra nhanh node đã có trong hàng đợi chưa
+        open_set = {start}
+
+        came_from = {}
+
+        # g_score: Chi phí thực tế từ start đến node hiện tại
+        g_score = {node: float('inf') for node in graph.nodes}
+        g_score[start] = 0
+
+        # f_score: g_score + h_score
+        f_score = {node: float('inf') for node in graph.nodes}
+
+        # Lấy tọa độ mục tiêu để tính heuristic
+        goal_lat, goal_lon = graph.nodes[goal]
+        start_lat, start_lon = graph.nodes[start]
+
+        # Tính toán f ban đầu bằng hàm haversine của graph
+        f_score[start] = graph.haversine(start_lat, start_lon, goal_lat, goal_lon)
+
+        while not open_queue.empty():
+            # Lấy node có f_score thấp nhất
+            _, current = open_queue.get()
+            count_node += 1
+
+            if current == goal:
+                # Trả về: count_node, distance, path
+                path = self.reconstruct_path(start, goal, came_from)
+                distance = g_score[goal]
+                return count_node, distance, path
+
+            # Duyệt các láng giềng từ adj_list: [(neighbor_id, weight), ...]
+            for neighbor, weight in graph.adj_list.get(current, []):
+                tentative_g_score = g_score[current] + weight
+
+                if tentative_g_score < g_score.get(neighbor, float('inf')):
+                    came_from[neighbor] = current
+                    g_score[neighbor] = tentative_g_score
+
+                    # Tính Heuristic: Haversine từ neighbor tới goal
+                    n_lat, n_lon = graph.nodes[neighbor]
+                    h_val = graph.haversine(n_lat, n_lon, goal_lat, goal_lon)
+
+                    f_score[neighbor] = g_score[neighbor] + h_val
+
+                    if neighbor not in open_set:
+                        open_queue.put((f_score[neighbor], neighbor))
+                        open_set.add(neighbor)
+
+        # Không tìm thấy đường
+        return count_node, None, None
+
+
+class Dijkstra(Algorithm):
+    def __init__(self):
+        super().__init__()
+    def run(self, start, goal, graph):
+        count_node  =0
+        # Priority Queue: (chi_phi_tich_luy, node_id)
+        # Bản chất: Nhặt giá trị chi_phi_tich_luy (g_score) nhỏ nhất lên đầu
+        open_queue = PriorityQueue()
+        open_queue.put((0, start))
+        open_set = {start}
+        came_from = {}
+
+        g_score = {node: float('inf') for node in graph.nodes}
+        g_score[start] = 0
+
+        while not open_queue.empty():
+            current_priority, current = open_queue.get()
+            count_node += 1
+            if current == goal:
+                path = self.reconstruct_path(start, goal, came_from)
+                distance = g_score[goal]
+                return count_node, distance, path
+
+            # Nếu giá trị lấy ra từ Queue đã cũ (lớn hơn g_score hiện tại), bỏ qua
+            if current_priority> g_score[current]:
+                continue
+
+            for neighbor, weight in graph.adj_list.get(current, []):
+                # Tính quãng đường mới qua node 'current'
+                tentative_g_score = g_score[current] + weight
+
+                # Nếu tìm thấy đường đi ngắn hơn đến 'neighbor'
+                if tentative_g_score < g_score[neighbor]:
+                    came_from[neighbor] = current
+                    g_score[neighbor] = tentative_g_score
+
+                    # Đưa vào Priority Queue để xét các bước tiếp theo
+                    # Priority Queue sẽ tự động sắp xếp để g_score nhỏ nhất lên đầu
+                    open_queue.put((g_score[neighbor], neighbor))
+
+                # Nếu duyệt hết mà không thấy đích
+        return count_node, None, None
+
+
+
+
+
+
