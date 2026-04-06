@@ -12,11 +12,11 @@ import customtkinter as ctk
 # Lấy đường dẫn của thư mục chứa file code hiện tại (thư mục src)
 current_dir = Path(__file__).parent
 
-# Lùi lại một thư mục cha, rồi trỏ tới file json trong thư mục res
-json_path = current_dir.parent / "res" / "mrt_graph.json"
+# Chỉ cần trỏ vào file pkl
+pkl_path = current_dir.parent / "res" / "mrt_graph.pkl"
 
 g = Graph()
-g.load_from_json(json_path)
+g.load_from_pickle(pkl_path) # Gọi hàm load siêu tốc
 
 class App(ctk.CTk):
     def __init__(self, root):
@@ -227,29 +227,20 @@ class App(ctk.CTk):
 
         path_coords = []
 
+        # Chỉ gom tọa độ lại, KHÔNG vẽ marker cho từng node để chống lag
         for node_id in path:
             if node_id in g.nodes:
                 coords = g.nodes[node_id]
                 path_coords.append(coords)
-
-                # 2. Vẽ "dấu chấm" cho các trạm trung gian
-                if node_id not in ["Start", "Dest"]:
-                    self.map_widget.set_marker(
-                        coords[0],
-                        coords[1],
-                        text="",
-                        marker_color_circle="white",
-                        marker_color_outside="#e67e22",
-                    )
             else:
                 print(f"Cảnh báo: Không tìm thấy tọa độ cho {node_id}")
 
-        # 3. Vẽ đường nối
+        # Vẽ duy nhất 1 đường line nối tất cả các điểm lại với nhau
         if len(path_coords) > 1:
             self.map_widget.set_path(
                 path_coords,
                 color="#3498db",
-                width=2
+                width=3
             )
 
 # ===== MAIN =====
