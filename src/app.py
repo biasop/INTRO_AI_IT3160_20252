@@ -221,27 +221,33 @@ class App(ctk.CTk):
     def draw_path(self, path):
         # 1. Xóa đường đi cũ
         self.map_widget.delete_all_path()
-
+        if hasattr(self, 'station_markers'):
+            for marker in self.station_markers:
+                marker.delete()
+        self.station_markers = []
         if not path:
             return
 
         path_coords = []
 
-        # Chỉ gom tọa độ lại, KHÔNG vẽ marker cho từng node để chống lag
-        for node_id in path:
-            if node_id in g.nodes:
-                coords = g.nodes[node_id]
-                path_coords.append(coords)
-            else:
-                print(f"Cảnh báo: Không tìm thấy tọa độ cho {node_id}")
+        for i in range(len(path) - 1):
+            u = path[i]
+            v = path[i + 1]
+            detailed_nodes = g.edge_paths.get((u, v), [u, v]) #nếu ko có thì lấy luôn [u, v] SẼ CẢI TIẾN TRƯỜNG HỢP ĐI BỘ
+            
+            path_coords = [] #List các toạ độ
+            for node_id in detailed_nodes:
+                if node_id in g.nodes:
+                    path_coords.append(g.nodes[node_id])
+            
+            if len(path_coords) > 1:
+                self.map_widget.set_path(path_coords, color="#3498db", width=4)
+            if u not in ["Start", "Dest"]:
+                name = g.names.get(u, "Ga Tàu")
+                lat, lon = g.nodes[u]
+                marker = self.map_widget.set_marker(lat, lon, text=name, marker_color_circle="#e74c3c")
+                self.station_markers.append(marker)
 
-        # Vẽ duy nhất 1 đường line nối tất cả các điểm lại với nhau
-        if len(path_coords) > 1:
-            self.map_widget.set_path(
-                path_coords,
-                color="#3498db",
-                width=3
-            )
 
 # ===== MAIN =====
 if __name__ == "__main__":

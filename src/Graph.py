@@ -6,9 +6,9 @@ class Graph():
     def __init__(self):
         self.nodes = {}  # node_id -> (lat, lon)
         self.names = {}  # node_id -> station name
-        self.stations = {} # Lưu riêng các node là ga tàu
+        self.stations = {} # Lưu riêng các node là ga tàu node_id -> (lat, lon)
         self.adj_list = {}  # node_id -> list of (neighbor_id, cost)
-        self.edges = []  # (u, v, cost)
+        self.edge_paths = {}  #  key = (node đầu, node đuôi) value = list_path[]
 
         self.obstacles = set()
         self._removed_edges = {}
@@ -27,7 +27,7 @@ class Graph():
         return 2 * R * math.asin(math.sqrt(a))
         
     def find_neighbor(self, node):
-        return [neighbor_node[0] for neighbor_node in self.adj_list[node]]
+        return [neighbor_node[0] for neighbor_node in self.adj_list[node]] #một list các node hàng xóm
 
     def load_from_pickle(self, pkl_path):
         """Hàm load siêu tốc từ file bộ nhớ đệm"""
@@ -40,7 +40,7 @@ class Graph():
         self.names = data["names"]
         self.stations = data["stations"]
         self.adj_list = data["adj_list"]
-        self.edges = data["edges"]
+        self.edge_paths = data["edge_paths"]
         self._node_ids = data["node_ids"]
         self._kd_tree = data["kd_tree"]
 
@@ -57,7 +57,7 @@ class Graph():
             i += 1
             if i > 10: break # Chỉ in 10 cái để tránh trôi màn hình terminal
 
-    def add_chosen_location(self, start_coord, end_coord):
+    def add_chosen_location(self, start_coord, end_coord): #HÀM CÓ VẤN ĐỀ !!!
         """
         Kết nối START/END với 3 ga gần nhất để tối ưu tìm đường
         """
@@ -81,13 +81,13 @@ class Graph():
         self.names[end_node] = "Điểm đến"
 
         # 🔹 Tìm 3 điểm đường ray gần nhất cho mỗi điểm (k=3)
-        for point_type, coord, node_id in [("START", start_coord, start_node),
+        for _, coord, node_id in [("START", start_coord, start_node),
                                            ("END", end_coord, end_node)]:
 
             # k=3 để lấy 3 hàng xóm gần nhất
-            dists, indices = self._kd_tree.query([coord[0], coord[1]], k=3)
-
-            for d, idx in zip(dists, indices):
+            dists, indices = self._kd_tree.query([coord[0], coord[1]], k=3) #ĐOẠN NÀY CẦN SỬA VÌ NÓ ĐANG TÌM TỚI ĐƯỜNG RAY, KHÔNG PHẢI GA TÀU
+            # Sau khi sửa thì kd_tree đã chọn ra ga tàu, không phải đường ray
+            for _, idx in zip(dists, indices): #dist bị thừa
                 neighbor_id = self._node_ids[idx]
 
                 # Tính khoảng cách thực tế bằng Haversine (km)
@@ -98,7 +98,10 @@ class Graph():
                 self.adj_list[node_id].append((neighbor_id, cost))
                 self.adj_list[neighbor_id].append((node_id, cost))
 
-    def remove_chosen_location(self):
+                self.edge_paths[(node_id, neighbor_id)] = [node_id, neighbor_id]
+                self.edge_paths[(neighbor_id, node_id)] = [neighbor_id, node_id]
+
+    def remove_chosen_location(self): #CÓ VẤN ĐỀ THEO HÀM TRÊN LUÔN !!!
         """
         Dọn dẹp các nút tạm thời và các kết nối liên quan để reset đồ thị
         """
@@ -126,6 +129,9 @@ class Graph():
                     del self.nodes[temp_id]
                 if temp_id in self.names:
                     del self.names[temp_id]
+        keys_to_delete = [k for k in self.edge_paths.keys() if "Start" in k or "Dest" in k] #list các tuple
+        for key in keys_to_delete:
+            del self.edge_paths[key]
 
     def calculate_path_distance(self, path):
         """Tính tổng chiều dài uốn lượn thực tế của một đường đi (km)"""
