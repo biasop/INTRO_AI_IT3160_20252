@@ -1,6 +1,7 @@
 import math
 from scipy.spatial import KDTree
 import pickle
+import requests
 
 class Graph():
     def __init__(self):
@@ -81,25 +82,36 @@ class Graph():
         self.names[end_node] = "Điểm đến"
 
         # 🔹 Tìm 3 điểm đường ray gần nhất cho mỗi điểm (k=3)
-        for _, coord, node_id in [("START", start_coord, start_node),
-                                           ("END", end_coord, end_node)]:
+        start_dists, start_indices = self._kd_tree.query((start_coord[0], start_coord[1]), k = 3)
+        end_dists, end_indices = self._kd_tree.query((end_coord[0], end_coord[1]), k = 3)
 
-            # k=3 để lấy 3 hàng xóm gần nhất
-            dists, indices = self._kd_tree.query([coord[0], coord[1]], k=3) #ĐOẠN NÀY CẦN SỬA VÌ NÓ ĐANG TÌM TỚI ĐƯỜNG RAY, KHÔNG PHẢI GA TÀU
-            # Sau khi sửa thì kd_tree đã chọn ra ga tàu, không phải đường ray
-            for _, idx in zip(dists, indices): #dist bị thừa
+        def get_osrm_walking_data(from_lat, from_lon, to_lat, to_lon):
+            try:
+                url = f"http://router.project-osrm.org/route/v1/foot/{from_lon},{from_lat};{to_lon},{to_lat}?geometries=geojson"
+                response = requests.get(url, timeout= 3).json()
+                if response.get("code") == "Ok":
+                    route = response["routes"][0]
+                    path_coords = [(lat,lon) for lon, lat in route["geometry"]["coordinates"]]
+                    distance_km = route["distance"] / 1000.0
+                    return distance_km, path_coords
+            except Exception as e:
+                print(f"Lỗi gọi OSRM: {e}")
+            return None, None
+
+        #Xử lý Start với 3 ga gần nhất
+        for coord, dists, indices, coord_id in [(start_coord ,start_dists, start_indices, start_node), (end_coord, end_dists, end_indices, end_node)]:
+            for d, idx in zip(dists, indices):
                 neighbor_id = self._node_ids[idx]
+                n_lat, n_lon = self.nodes[neighbor_id]
+                walk_cost, walk_path = get_osrm_walking_data(coord[0], coord[1], n_lat, n_lon)
+                if walk_cost is None:
+                    walk_cost = self.haversine(coord[0], coord[1], n_lat, n_lon)
+                    walk_path = [coord_id, neighbor_id]
+                self.adj_list[coord_id].append((neighbor_id, walk_cost))
+                self.adj_list[neighbor_id].append((coord_id, walk_cost))
 
-                # Tính khoảng cách thực tế bằng Haversine (km)
-                cost = self.haversine(coord[0], coord[1],
-                                      self.nodes[neighbor_id][0], self.nodes[neighbor_id][1])
-
-                # Nối 2 chiều: Từ vị trí chọn -> Đường ray và ngược lại
-                self.adj_list[node_id].append((neighbor_id, cost))
-                self.adj_list[neighbor_id].append((node_id, cost))
-
-                self.edge_paths[(node_id, neighbor_id)] = [node_id, neighbor_id]
-                self.edge_paths[(neighbor_id, node_id)] = [neighbor_id, node_id]
+                self.edge_paths[(coord_id, neighbor_id)] = walk_path
+                self.edge_paths[(neighbor_id, coord_id)] = list(reversed(walk_path))
 
     def remove_chosen_location(self): #CÓ VẤN ĐỀ THEO HÀM TRÊN LUÔN !!!
         """
@@ -132,20 +144,3 @@ class Graph():
         keys_to_delete = [k for k in self.edge_paths.keys() if "Start" in k or "Dest" in k] #list các tuple
         for key in keys_to_delete:
             del self.edge_paths[key]
-
-    def calculate_path_distance(self, path):
-        """Tính tổng chiều dài uốn lượn thực tế của một đường đi (km)"""
-        if not path or len(path) < 2:
-            return 0.0
-
-        total_distance = 0.0
-        for i in range(len(path) - 1):
-            u = path[i]
-            v = path[i+1]
-            
-            lat1, lon1 = self.nodes[u]
-            lat2, lon2 = self.nodes[v]
-            
-            total_distance += self.haversine(lat1, lon1, lat2, lon2)
-            
-        return total_distance

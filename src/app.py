@@ -237,10 +237,13 @@ class App(ctk.CTk):
             
             path_coords = [] #List các toạ độ
             for node_id in detailed_nodes:
+                if isinstance(node_id, tuple):
+                    path_coords.append(node_id)
                 if node_id in g.nodes:
                     path_coords.append(g.nodes[node_id])
             
             if len(path_coords) > 1:
+                color = "#7f8c8d" if "Start" in [u, v] or "Dest" in [u, v] else "#3498db"
                 self.map_widget.set_path(path_coords, color="#3498db", width=4)
             if u not in ["Start", "Dest"]:
                 name = g.names.get(u, "Ga Tàu")
