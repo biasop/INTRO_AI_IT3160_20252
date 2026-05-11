@@ -11,8 +11,7 @@ class Graph():
         self.adj_list = {}  # node_id -> list of (neighbor_id, cost)
         self.edge_paths = {}  #  key = (node đầu, node đuôi) value = list_path[]
 
-        self.obstacles = set()
-        self._removed_edges = {}
+        self._removed_edges = [] #(u,v)
 
         self._kd_tree = None
         self._node_ids = []
