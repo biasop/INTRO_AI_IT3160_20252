@@ -53,8 +53,8 @@ class DFS(Algorithm):
         super().__init__()
 
     def run(self, start, goal, graph):
-        if start in graph.obstacles or goal in graph.obstacles:
-            return 0, None
+        #if start in graph.obstacles or goal in graph.obstacles:
+            #return 0, None
         count_node = 0
         came_from = {}
         open_set = []
@@ -81,8 +81,8 @@ class BFS(Algorithm):
     def __init__(self):
         super().__init__()
     def run(self, start, goal, graph):
-        if start in graph.obstacles or goal in graph.obstacles:
-            return 0, None
+        #if start in graph.obstacles or goal in graph.obstacles:
+            #return 0, None
         count_node = 0
         came_from = {}
         open_set = [start]
@@ -210,6 +210,37 @@ class Dijkstra(Algorithm):
 
                 # Nếu duyệt hết mà không thấy đích
         return count_node, None, None
+    
+class BellmanFord(Algorithm):
+    def __init__(self):
+        super().__init__()
+    def run(self, start, goal, graph):
+        pass
+
+class UCS(Algorithm):
+    def __init__(self):
+        super().__init__()
+    def run(self, start, goal, graph):
+        pass
+
+class Greedy(Algorithm):
+    def __init__(self):
+        super().__init__()
+    def run(self, start, goal, graph):
+        pass
+
+class BidirectionalAstar(Algorithm):
+    def __init__(self):
+        super().__init__()
+    def run(self, start, goal, graph):
+        pass
+
+class BidirectionalDijkstra(Algorithm):
+    def __init__(self):
+        super().__init__()
+    def run(self, start, goal, graph):
+        pass
+
 
 
 

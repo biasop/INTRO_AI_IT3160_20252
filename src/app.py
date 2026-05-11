@@ -193,7 +193,17 @@ class App(ctk.CTk):
         elif selected_algo == "Dijkstra":
             algo = Dijkstra() 
         elif selected_algo == "A*":
-            algo = AStar()    
+            algo = AStar()
+        elif selected_algo == "Bellman-Ford":
+            algo = BellmanFord()
+        elif selected_algo == "UCS":
+            algo = UCS()
+        elif selected_algo == "Greedy":
+            algo = Greedy()
+        elif selected_algo == "Bidirectional A*":
+            algo = BidirectionalAstar()
+        elif selected_algo == "Bidirectional Dijkstra":
+            algo = BidirectionalDijkstra()
         else:
             algo = BFS() 
 
