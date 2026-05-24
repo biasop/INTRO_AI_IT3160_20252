@@ -368,15 +368,163 @@ class Greedy(Algorithm):
 class BidirectionalAstar(Algorithm):
     def __init__(self):
         super().__init__()
+
     def run(self, start, goal, graph):
-        pass
+        if start == goal: return 0, 0, [start]
+
+        count_node = 0
+        g_f, g_b = {start: 0}, {goal: 0}
+        pq_f, pq_b = PriorityQueue(), PriorityQueue()
+
+        goal_lat, goal_lon = graph.nodes[goal]
+        start_lat, start_lon = graph.nodes[start]
+
+        # f = g + h
+        pq_f.put((graph.haversine(start_lat, start_lon, goal_lat, goal_lon), start))
+        pq_b.put((graph.haversine(goal_lat, goal_lon, start_lat, start_lon), goal))
+
+        parent_f, parent_b = {start: None}, {goal: None}
+        best_dist = float('inf')
+        mu = None
+
+        while not pq_f.empty() and not pq_b.empty():
+            # Forward Search
+            _, u = pq_f.get()
+            count_node += 1
+
+            for v, w in graph.adj_list.get(u, []):
+                new_g = g_f[u] + w
+                if v not in g_f or new_g < g_f[v]:
+                    g_f[v] = new_g
+                    parent_f[v] = u
+                    v_lat, v_lon = graph.nodes[v]
+                    h = graph.haversine(v_lat, v_lon, goal_lat, goal_lon)
+                    pq_f.put((new_g + h, v))
+                    if v in g_b:
+                        if g_f[v] + g_b[v] < best_dist:
+                            best_dist = g_f[v] + g_b[v]
+                            mu = v
+
+            # Backward Search
+            _, u = pq_b.get()
+            count_node += 1
+            for v, w in graph.adj_list.get(u, []):
+                new_g = g_b[u] + w
+                if v not in g_b or new_g < g_b[v]:
+                    g_b[v] = new_g
+                    parent_b[v] = u
+                    v_lat, v_lon = graph.nodes[v]
+                    h = graph.haversine(v_lat, v_lon, start_lat, start_lon)
+                    pq_b.put((new_g + h, v))
+                    if v in g_f:
+                        if g_f[v] + g_b[v] < best_dist:
+                            best_dist = g_f[v] + g_b[v]
+                            mu = v
+
+            # Kiểm tra điều kiện kết thúc sớm
+            if not pq_f.empty() and not pq_b.empty():
+                if min(pq_f.queue[0][0], pq_b.queue[0][0]) >= best_dist:
+                    break
+
+        if mu is None: return count_node, None, None
+
+        # Reconstruct path tương tự Dijkstra
+        path_f, path_b = [], []
+        curr = mu
+        while curr is not None:
+            path_f.append(curr);
+            curr = parent_f[curr]
+        path_f.reverse()
+        curr = parent_b[mu]
+        while curr is not None:
+            path_b.append(curr);
+            curr = parent_b[curr]
+
+        return count_node, best_dist, path_f + path_b
+
+
+from queue import PriorityQueue
+
 
 class BidirectionalDijkstra(Algorithm):
     def __init__(self):
         super().__init__()
-    def run(self, start, goal, graph):
-        pass
 
+    def run(self, start, goal, graph):
+        if start == goal: return 0, 0, [start]
+
+        count_node = 0
+        # Dữ liệu cho chiều đi xuôi (Forward)
+        dist_f = {start: 0}
+        pq_f = PriorityQueue()
+        pq_f.put((0, start))
+        parent_f = {start: None}
+
+        # Dữ liệu cho chiều đi ngược (Backward)
+        dist_b = {goal: 0}
+        pq_b = PriorityQueue()
+        pq_b.put((0, goal))
+        parent_b = {goal: None}
+
+        best_dist = float('inf')
+        mu = None  # Điểm giao nhau tối ưu
+
+        while not pq_f.empty() and not pq_b.empty():
+            # Phát triển bên Forward
+            if not pq_f.empty():
+                d, u = pq_f.get()
+                count_node += 1
+                if d <= dist_f.get(u, float('inf')):
+                    for v, w in graph.adj_list.get(u, []):
+                        if dist_f.get(v, float('inf')) > dist_f[u] + w:
+                            dist_f[v] = dist_f[u] + w
+                            parent_f[v] = u
+                            pq_f.put((dist_f[v], v))
+                            # Kiểm tra nếu nút này đã được chiều kia duyệt tới
+                            if v in dist_b:
+                                new_dist = dist_f[v] + dist_b[v]
+                                if new_dist < best_dist:
+                                    best_dist = new_dist
+                                    mu = v
+
+            # Phát triển bên Backward
+            if not pq_b.empty():
+                d, u = pq_b.get()
+                count_node += 1
+                if d <= dist_b.get(u, float('inf')):
+                    for v, w in graph.adj_list.get(u, []):
+                        if dist_b.get(v, float('inf')) > dist_b[u] + w:
+                            dist_b[v] = dist_b[u] + w
+                            parent_b[v] = u
+                            pq_b.put((dist_b[v], v))
+                            if v in dist_f:
+                                new_dist = dist_f[v] + dist_b[v]
+                                if new_dist < best_dist:
+                                    best_dist = new_dist
+                                    mu = v
+
+            # Điều kiện dừng: Khi khoảng cách nhỏ nhất trong PQ lớn hơn quãng đường tốt nhất tìm được
+            if not pq_f.empty() and not pq_b.empty():
+                if pq_f.queue[0][0] + pq_b.queue[0][0] >= best_dist:
+                    break
+
+        if mu is None: return count_node, None, None
+
+        # Tái tạo đường đi từ mu về 2 phía
+        path_f = []
+        curr = mu
+        while curr is not None:
+            path_f.append(curr)
+            curr = parent_f[curr]
+        path_f.reverse()
+
+        path_b = []
+        curr = parent_b[mu]
+        while curr is not None:
+            path_b.append(curr)
+            curr = parent_b[curr]
+
+        return count_node, best_dist, path_f + path_b
 
 
 

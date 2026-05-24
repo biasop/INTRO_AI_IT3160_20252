@@ -46,8 +46,9 @@ class App(ctk.CTk):
         # MAP (RIGHT)
         self.map_widget = tkintermapview.TkinterMapView(self.root, corner_radius=0)
         self.map_widget.pack(side="right", fill="both", expand=True)
-
         # Set Singapore
+        self.map_widget.min_zoom = 10
+        self.map_widget.max_zoom = 15
         self.map_widget.set_position(1.3521, 103.8198)
         self.map_widget.set_zoom(11)
 
@@ -66,7 +67,8 @@ class App(ctk.CTk):
     def show_initial_menu(self):
         """Menu chọn chế độ ban đầu"""
         self.clear_left_frame()
-
+        self.map_widget.delete_all_marker()
+        self.map_widget.delete_all_path()
         ctk.CTkLabel(self.left_frame, text="CHỌN CHẾ ĐỘ", font=("Arial", 20, "bold")).pack(pady=(50, 20))
 
         ctk.CTkButton(self.left_frame, text="Chế độ Admin", command=self.show_admin_panel, width=200).pack(pady=10)
@@ -85,7 +87,8 @@ class App(ctk.CTk):
 
         # Combobox chọn thuật toán
         self.algo_var = ctk.StringVar(value="BFS")
-        self.algo_box = ctk.CTkComboBox(self.left_frame, variable=self.algo_var, values=["BFS", "DFS", "Dijkstra", "A*"], width=200)
+        self.algo_box = ctk.CTkComboBox(self.left_frame, variable=self.algo_var,
+                                        values=["BFS", "DFS", "Dijkstra", "A*","Bellman-Ford","UCS"], width=200)
         self.algo_box.pack(pady=5)
 
         # Nút Run 
@@ -117,7 +120,6 @@ class App(ctk.CTk):
     def on_map_click(self, coords):
         """Hàm điều phối sự kiện click chuột trên bản đồ"""
         lat, lon = coords
-
         # Kiểm tra phạm vi chung cho cả 2 chế độ
         if not (1.13 <= lat <= 1.47 and 103.59 <= lon <= 104.05):
             messagebox.showwarning("Lỗi", "Vui lòng chọn vị trí trong phạm vi Singapore!")
@@ -174,61 +176,63 @@ class App(ctk.CTk):
             self.nodes_label.configure(text="Số nút đã duyệt: --")
             self.time_label.configure(text="Thời gian: --")
 
+
     def run_algorithm(self):
+        """Hàm khởi tạo luồng để không làm treo giao diện"""
         if not self.start_pos or not self.end_pos:
-            print("Chưa chọn đủ điểm!")
-            messagebox.showwarning("Thiếu điểm", "Vui lòng click chọn điểm Start và End trên bản đồ trước khi Tìm đường!")
+            messagebox.showwarning("Thiếu điểm", "Vui lòng click chọn điểm Start và End trên bản đồ!")
             return
 
-        # Thêm vị trí Start/Dest vào đồ thị
-        g.add_chosen_location(self.start_pos, self.end_pos)
+        # Hiển thị trạng thái chờ cho người dùng
+        self.time_label.configure(text="Đang tính toán...")
 
-        # --- CHỌN THUẬT TOÁN DỰA TRÊN COMBOBOX ---
-        selected_algo = self.algo_var.get()
+        # Tạo một luồng riêng để chạy thuật toán
+        thread = threading.Thread(target=self._run_algorithm_task, daemon=True)
+        thread.start()
 
-        if selected_algo == "BFS":
-            algo = BFS()
-        elif selected_algo == "DFS":
-            algo = DFS()
-        elif selected_algo == "Dijkstra":
-            algo = Dijkstra() 
-        elif selected_algo == "A*":
-            algo = AStar()
-        elif selected_algo == "Bellman-Ford":
-            algo = BellmanFord()
-        elif selected_algo == "UCS":
-            algo = UCS()
-        elif selected_algo == "Greedy":
-            algo = Greedy()
-        elif selected_algo == "Bidirectional A*":
-            algo = BidirectionalAstar()
-        elif selected_algo == "Bidirectional Dijkstra":
-            algo = BidirectionalDijkstra()
-        else:
-            algo = BFS() 
+    def _run_algorithm_task(self):
+        """Logic tính toán chạy ngầm"""
+        try:
+            # 1. Thêm vị trí vào đồ thị
+            g.add_chosen_location(self.start_pos, self.end_pos)
 
-        # 2. Bắt đầu đo thời gian
-        start_time = time.perf_counter()
+            # 2. Khởi tạo thuật toán dựa trên Combobox
+            selected_algo = self.algo_var.get()
+            algos = {
+                "BFS": BFS(), "DFS": DFS(), "Dijkstra": Dijkstra(),
+                "A*": AStar(), "Bellman-Ford": BellmanFord(), "UCS": UCS(),
+                "Greedy": Greedy(), "Bidirectional A*": BidirectionalAstar(),
+                "Bidirectional Dijkstra": BidirectionalDijkstra()
+            }
+            algo = algos.get(selected_algo, BFS())
 
-        # 3. Chạy thuật toán đã chọn
-        total_nodes, distance, path = algo.run("Start", "Dest", g)
+            # 3. Đo thời gian và chạy
+            start_time = time.perf_counter()
+            total_nodes, distance, path = algo.run("Start", "Dest", g)
+            end_time = time.perf_counter()
 
-        # 4. Kết thúc đo thời gian
-        end_time = time.perf_counter()
-        execution_time = (end_time - start_time) * 1000
+            execution_time = (end_time - start_time) * 1000
 
-        # 5. Cập nhật UI
+            # 4. Gửi kết quả về luồng chính (Main Thread) để cập nhật UI
+            self.root.after(0, self._update_ui_after_run, total_nodes, distance, path, execution_time)
+
+        except Exception as e:
+            print(f"Lỗi thuật toán: {e}")
+            self.root.after(0, lambda: messagebox.showerror("Lỗi", "Đã xảy ra lỗi trong quá trình tìm đường."))
+
+    def _update_ui_after_run(self, total_nodes, distance, path, execution_time):
+        """Cập nhật giao diện (Chỉ chạy trên luồng chính)"""
         if path:
             self.draw_path(path)
             self.distance_label.configure(text=f"Khoảng cách: {distance:.2f} km")
             self.nodes_label.configure(text=f"Số nút đã duyệt: {total_nodes}")
             self.time_label.configure(text=f"Thời gian tìm kiếm: {execution_time:.3f} ms")
         else:
+            self.map_widget.delete_all_path()
             self.distance_label.configure(text="Khoảng cách: Không tìm thấy!")
-            self.nodes_label.configure(text="Số nút đã duyệt: 0")
+            self.nodes_label.configure(text=f"Số nút đã duyệt: {total_nodes}")
             self.time_label.configure(text="Thời gian: -- ms")
             messagebox.showinfo("Kết quả", "Không tìm thấy đường đi giữa 2 điểm này trên mạng lưới MRT!")
-
     def draw_path(self, path):
         # 1. Dọn dẹp bản đồ (Xóa đường và marker cũ)
         self.map_widget.delete_all_path()
@@ -333,21 +337,34 @@ class App(ctk.CTk):
                                                                                                             pady=20)
         else:
             for i, (u, v) in enumerate(broken_edges, start=1):
-                # Lấy tên ga từ ID, nếu không có tên thì hiện ID
                 name_u = g.names.get(u, f"ID: {u}")
                 name_v = g.names.get(v, f"ID: {v}")
 
-                # Dòng dữ liệu
-                # Sử dụng màu nền xen kẽ để dễ nhìn (zebra striping)
                 bg_color = "gray25" if i % 2 == 0 else "transparent"
 
-                ctk.CTkLabel(table_container, text=name_u, font=("Arial", 11), fg_color=bg_color).grid(row=i, column=0,
-                                                                                                       sticky="ew",
-                                                                                                       padx=1, pady=1)
-                ctk.CTkLabel(table_container, text=name_v, font=("Arial", 11), fg_color=bg_color).grid(row=i, column=1,
-                                                                                                       sticky="ew",
-                                                                                                       padx=1, pady=1)
+                # Cột Ga Đi
+                ctk.CTkLabel(
+                    table_container,
+                    text=name_u,
+                    font=("Arial", 11),
+                    fg_color=bg_color,
+                    anchor="w",           # Căn lề trái
+                    justify="left",       # Căn lề văn bản bên trong sang trái
+                    wraplength=120,       # Tự động xuống dòng sau 120 pixel
+                    padx=5                # Đệm một chút cho chữ không dính sát lề
+                ).grid(row=i, column=0, sticky="nsew", padx=1, pady=1)
 
+                # Cột Ga Đến
+                ctk.CTkLabel(
+                    table_container,
+                    text=name_v,
+                    font=("Arial", 11),
+                    fg_color=bg_color,
+                    anchor="w",           # Căn lề trái
+                    justify="left",
+                    wraplength=120,       # Tự động xuống dòng
+                    padx=5
+                ).grid(row=i, column=1, sticky="nsew", padx=1, pady=1)
         # 4. Nút quay lại (đẩy xuống dưới cùng)
         ctk.CTkButton(self.left_frame, text="← Thoát Admin",
                       command=self.exit_admin, fg_color="#d32f2f", hover_color="#b71c1c").pack(side="bottom", pady=20)
@@ -365,9 +382,8 @@ class App(ctk.CTk):
         drawed_edges = set()  # Lưu các cặp đã vẽ
 
         for (u, v), path_data in g.edge_paths.items():
-            edge_id = tuple(sorted((u, v)))
 
-            if edge_id in drawed_edges:
+            if (u,v) in drawed_edges or (v,u) in drawed_edges:
                 continue  # Nếu cặp này vẽ rồi thì bỏ qua luôn
 
             actual_coords = [g.nodes[item] if item in g.nodes else item for item in path_data]
@@ -388,24 +404,26 @@ class App(ctk.CTk):
                     "id": (u, v)
                 })
 
-        print(f"✅ Đã vẽ xong mạng lưới với {len(created_markers_nodes)} ga tàu.")
 
     def _handle_admin_click(self, coords):
         threshold = 0.001
         found_edge = None
+        min_dist=99999
 
         for item in self.path_objects:
             line_coords = item["coords"]
-            if any(is_point_near_segment(coords, line_coords[i], line_coords[i + 1], threshold)
-                   for i in range(len(line_coords) - 1)):
-                found_edge = item["id"]  # Đây là cặp (u, v)
-                break
+            cur_dist = min(dist_to_segment(coords, line_coords[i], line_coords[i + 1], threshold)
+                   for i in range(len(line_coords) - 1))
+            if cur_dist<min_dist and cur_dist<threshold :
+                min_dist = cur_dist
+                found_edge = item["id"]
 
-        if found_edge:
+
+
+        if found_edge != None :
             u, v = found_edge
             # Kiểm tra xem cạnh này đã có trong danh sách hỏng chưa (xét cả 2 chiều)
             existing_edge = next((edge for edge in g._removed_edges if edge == (u, v) or edge == (v, u)), None)
-
             if existing_edge:
                 # Nếu ĐÃ HỎNG -> Sửa nó (Xóa khỏi danh sách)
                 g._removed_edges.remove(existing_edge)
@@ -420,7 +438,25 @@ class App(ctk.CTk):
             self.draw_all_graph_edges()
             # Vẽ lại bảng bên trái để cập nhật danh sách chữ
             self.show_admin_panel()
-def is_point_near_segment( p, s1, s2, threshold):
+
+    def on_closing(self):
+        """Hàm xử lý khi người dùng nhấn nút X hoặc thoát App"""
+        print("\n🔄 Đang chuẩn bị đóng ứng dụng...")
+
+        # 1. Lưu lại vào file Pickle để lần sau load siêu tốc
+        # Bạn có thể thay đường dẫn file pkl tùy ý
+        g.remove_chosen_location()
+        g.save_to_pickle(pkl_path)
+
+        # 2. (Tùy chọn) Lưu lại vào JSON nếu bạn muốn cập nhật file gốc
+        # graph_json = r"..."
+        # segment_json = r"..."
+        # self.g.save_to_json(graph_json, segment_json)
+
+        print("👋 Dữ liệu đã an toàn. Tạm biệt!")
+        self.root.quit()  # Dừng vòng lặp MainLoop trước (thoát phần xử lý sự kiện)
+        self.root.destroy()# Đóng cửa sổ và dừng MainLoop
+def dist_to_segment( p, s1, s2, threshold):
     px, py = p
     x1, y1 = s1
     x2, y2 = s2
@@ -436,10 +472,11 @@ def is_point_near_segment( p, s1, s2, threshold):
     closest_y = y1 + t * dy
 
     dist = ((px - closest_x) ** 2 + (py - closest_y) ** 2) ** 0.5
-    return dist < threshold
+    return dist
 
 # ===== MAIN =====
 if __name__ == "__main__":
     root = tk.Tk()
     app = App(root)
+    root.protocol("WM_DELETE_WINDOW", app.on_closing)
     root.mainloop()
