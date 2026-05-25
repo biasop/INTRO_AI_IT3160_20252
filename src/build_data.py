@@ -1,9 +1,9 @@
-import osmnx as ox
 import math
 import pickle
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import re
+from scipy.spatial import KDTree
 
 # ==========================================
 # CẤU HÌNH ĐƯỜNG DẪN TƯƠNG ĐỐI
@@ -81,20 +81,29 @@ def haversine(lat1, lon1, lat2, lon2):
 
 def build_and_save_data():
     station_to_stops, stops = extract_stops_from_osm()
-    G_nx = ox.graph_from_xml(osm_path, simplify=False)
+    print("⏳ Đang đọc file OSM thủ công để không bị mất ga...")
+    tree = ET.parse(osm_path)
+    root = tree.getroot()
     
     nodes = {}
     raw_adj_list = {}
 
-    for node_id, data in G_nx.nodes(data=True):
-        nid_str = str(node_id)
-        nodes[nid_str] = (data['y'], data['x']) 
-        raw_adj_list[nid_str] = []
-    
-    for u, v, data in G_nx.edges(data=True):
-        u_str, v_str = str(u), str(v)
-        cost = haversine(nodes[u_str][0], nodes[u_str][1], nodes[v_str][0], nodes[v_str][1])
-        raw_adj_list[u_str].append((v_str, cost))
+    for node in root.findall('node'):
+        node_id = node.attrib['id']
+        lat = float(node.attrib['lat'])
+        lon = float(node.attrib['lon'])
+        nodes[node_id] = (lat, lon)
+        raw_adj_list[node_id] = []
+        
+    for way in root.findall('way'):
+        nd_refs = [nd.attrib['ref'] for nd in way.findall('nd')]
+        for i in range(len(nd_refs) - 1):
+            u = nd_refs[i]
+            v = nd_refs[i+1]
+            if u in nodes and v in nodes:
+                cost = haversine(nodes[u][0], nodes[u][1], nodes[v][0], nodes[v][1])
+                # File OSM đã có sẵn 2 way cho 2 chiều, nên ta chỉ lấy theo đúng chiều của way (directed graph)
+                raw_adj_list[u].append((v, cost))
 
     graph_stations = {}
     for stop_id, info in stops.items():
@@ -155,10 +164,44 @@ def build_and_save_data():
                             'target': id_A, 'weight': TRANSFER_PENALTY, 'type': 'transfer', 'path': [coord_B, coord_A]
                         })
 
+    print("⏳ Đang định dạng dữ liệu cho app (Graph.py)...")
+    
+    g_nodes = {}
+    g_names = {}
+    g_stations = {}
+    g_adj_list = {}
+    g_edge_paths = {}
+    g_node_ids = []
+    g_kd_tree_data = []
+
+    for sid, info in graph_stations.items():
+        g_nodes[sid] = info['coord']
+        g_names[sid] = info['name']
+        g_stations[sid] = info['coord']
+        g_adj_list[sid] = []
+        g_node_ids.append(sid)
+        g_kd_tree_data.append(info['coord'])
+        
+    for u, edges in adj_list.items():
+        for edge in edges:
+            v = edge['target']
+            cost = edge['weight']
+            path = edge['path']
+            g_adj_list[u].append((v, cost))
+            g_edge_paths[(u, v)] = path
+            
+    kd_tree = KDTree(g_kd_tree_data) if g_kd_tree_data else None
+
     print("⏳ Đang nén dữ liệu và ghi ra file...")
     data_to_save = {
-        "stations": graph_stations,  
-        "adj_list": adj_list         
+        "nodes": g_nodes,
+        "names": g_names,
+        "stations": g_stations,
+        "adj_list": g_adj_list,
+        "edge_paths": g_edge_paths,
+        "_removed_edges": [],
+        "node_ids": g_node_ids,
+        "kd_tree": kd_tree
     }
 
     with open(pkl_path, "wb") as f:
