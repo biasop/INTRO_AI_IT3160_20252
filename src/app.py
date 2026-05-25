@@ -47,8 +47,6 @@ class App(ctk.CTk):
         self.map_widget = tkintermapview.TkinterMapView(self.root, corner_radius=0)
         self.map_widget.pack(side="right", fill="both", expand=True)
         # Set Singapore
-        self.map_widget.min_zoom = 10
-        self.map_widget.max_zoom = 15
         self.map_widget.set_position(1.3521, 103.8198)
         self.map_widget.set_zoom(11)
 
@@ -204,7 +202,7 @@ class App(ctk.CTk):
                 "Greedy": Greedy(), "Bidirectional A*": BidirectionalAstar(),
                 "Bidirectional Dijkstra": BidirectionalDijkstra()
             }
-            algo = algos.get(selected_algo, BFS())
+            algo = algos.get(selected_algo, BFS()) #mặc định
 
             # 3. Đo thời gian và chạy
             start_time = time.perf_counter()
@@ -383,7 +381,7 @@ class App(ctk.CTk):
 
         for (u, v), path_data in g.edge_paths.items():
 
-            if (u,v) in drawed_edges or (v,u) in drawed_edges:
+            if (u,v) in drawed_edges or (v,u) in drawed_edges: #ĐOẠN NÀY CHƯA XỬ LÝ 1 CHIỀU
                 continue  # Nếu cặp này vẽ rồi thì bỏ qua luôn
 
             actual_coords = [g.nodes[item] if item in g.nodes else item for item in path_data]
@@ -440,22 +438,24 @@ class App(ctk.CTk):
             self.show_admin_panel()
 
     def on_closing(self):
-        """Hàm xử lý khi người dùng nhấn nút X hoặc thoát App"""
         print("\n🔄 Đang chuẩn bị đóng ứng dụng...")
 
-        # 1. Lưu lại vào file Pickle để lần sau load siêu tốc
-        # Bạn có thể thay đường dẫn file pkl tùy ý
+        # 1. Loại bỏ các vị trí chọn tạm thời
         g.remove_chosen_location()
+        
+        # BỔ SUNG: Chủ động xóa các đoạn hỏng "rác" liên quan đến điểm tự chọn trước khi lưu
+        if hasattr(g, '_removed_edges'):
+            g._removed_edges = [
+                edge for edge in g._removed_edges 
+                if "Start" not in edge and "Dest" not in edge and "vị trí" not in str(edge)
+            ]
+
+        # 2. Lưu lại vào file Pickle sạch
         g.save_to_pickle(pkl_path)
-
-        # 2. (Tùy chọn) Lưu lại vào JSON nếu bạn muốn cập nhật file gốc
-        # graph_json = r"..."
-        # segment_json = r"..."
-        # self.g.save_to_json(graph_json, segment_json)
-
         print("👋 Dữ liệu đã an toàn. Tạm biệt!")
-        self.root.quit()  # Dừng vòng lặp MainLoop trước (thoát phần xử lý sự kiện)
-        self.root.destroy()# Đóng cửa sổ và dừng MainLoop
+        self.root.quit()
+        self.root.destroy()
+
 def dist_to_segment( p, s1, s2, threshold):
     px, py = p
     x1, y1 = s1

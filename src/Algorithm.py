@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from distutils import dist
 from queue import PriorityQueue, Queue
 
 from networkx.algorithms.shortest_paths.dense import reconstruct_path

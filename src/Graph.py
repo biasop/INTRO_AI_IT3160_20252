@@ -137,7 +137,9 @@ class Graph():
         self.stations = data["stations"]
         self.adj_list = data["adj_list"]
         self.edge_paths = data["edge_paths"]
-        self._removed_edges = data["_removed_edges"]
+
+        self._removed_edges = data.get("_removed_edges", [])
+        
         self._node_ids = data["node_ids"]
         self._kd_tree = data["kd_tree"]
 

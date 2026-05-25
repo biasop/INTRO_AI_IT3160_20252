@@ -103,8 +103,8 @@ def build_and_save_data():
 
     for u, v, data in G_nx.edges(data=True):
         cost = haversine(nodes[u][0], nodes[u][1], nodes[v][0], nodes[v][1])
-        raw_adj_list[u].append((v, cost))
-        raw_adj_list[v].append((u, cost))
+        raw_adj_list[u].append((v, cost)) #chuyển về đồ thị có hướng
+        # raw_adj_list[v].append((u, cost)) cái này đang làm đồ thị có tận 4 chiều đi đi về về
 
     extracted_stations = extract_station_from_osm()
     all_node_ids = list(nodes.keys())
@@ -170,6 +170,7 @@ def build_and_save_data():
         "stations": stations,
         "adj_list": adj_list,
         "edge_paths": edge_paths,
+        "_removed_edges": [],
         "node_ids": node_ids,
         "kd_tree": kd_tree
     }
