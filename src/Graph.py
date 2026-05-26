@@ -123,6 +123,18 @@ class Graph():
 
         return 2 * R * math.asin(math.sqrt(a))
         
+    def get_neighbors(self, node):
+        """Trả về danh sách hàng xóm hợp lệ (không đi qua các đoạn tàu hỏng)"""
+        if node not in self.adj_list:
+            return []
+        valid_neighbors = []
+        for neighbor, weight in self.adj_list[node]:
+            # Nếu cạnh nằm trong danh sách hỏng (xét cả 2 chiều để an toàn) thì bỏ qua
+            if (node, neighbor) in self._removed_edges or (neighbor, node) in self._removed_edges:
+                continue
+            valid_neighbors.append((neighbor, weight))
+        return valid_neighbors
+
     def find_neighbor(self, node):
         return [neighbor_node[0] for neighbor_node in self.adj_list[node]] #một list các node hàng xóm
 

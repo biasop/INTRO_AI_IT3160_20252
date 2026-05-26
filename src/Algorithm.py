@@ -35,12 +35,11 @@ class Algorithm(ABC):
             v = path[i + 1]
             # Tìm v trong danh sách hàng xóm của u để lấy cost
             found = False
-            if u in graph.adj_list:
-                for neighbor_id, cost in graph.adj_list[u]:
-                    if neighbor_id == v:
-                        total_distance += cost
-                        found = True
-                        break
+            for neighbor_id, cost in graph.get_neighbors(u):
+                if neighbor_id == v:
+                    total_distance += cost
+                    found = True
+                    break
 
             if not found:
                 # Trường hợp dự phòng nếu đồ thị có lỗi hoặc cạnh 1 chiều
@@ -69,7 +68,7 @@ class DFS(Algorithm):
                 path = self.reconstruct_path(start,goal,came_from)
                 distance = self.calculate_path_distance(path,graph)
                 return count_node, distance, path
-            for neighbor in graph.adj_list[current]:
+            for neighbor in graph.get_neighbors(current):
                 neighbor_id = neighbor[0]
                 if neighbor_id in closed:
                     continue
@@ -96,7 +95,7 @@ class BFS(Algorithm):
                 path = self.reconstruct_path(start, goal, came_from)
                 distance = self.calculate_path_distance(path,graph)
                 return count_node , distance , path
-            for neighbor in graph.adj_list[current]:
+            for neighbor in graph.get_neighbors(current):
                 neighbor_id = neighbor[0]
                 if neighbor_id in closed:
                     continue
@@ -147,7 +146,7 @@ class AStar(Algorithm):
                 return count_node, distance, path
 
             # Duyệt các láng giềng từ adj_list: [(neighbor_id, weight), ...]
-            for neighbor, weight in graph.adj_list.get(current, []):
+            for neighbor, weight in graph.get_neighbors(current):
                 tentative_g_score = g_score[current] + weight
 
                 if tentative_g_score < g_score.get(neighbor, float('inf')):
@@ -191,7 +190,7 @@ class Dijkstra(Algorithm):
             if current_priority> g_score[current]:
                 continue
 
-            for neighbor, weight in graph.adj_list.get(current, []):
+            for neighbor, weight in graph.get_neighbors(current):
                 # Tính quãng đường mới qua node 'current'
                 tentative_g_score = g_score[current] + weight
 
@@ -229,8 +228,8 @@ class BellmanFord(Algorithm):
 
         edges = []
         # Lấy danh sách tất cả các cạnh từ adj_list để Bellman-Ford duyệt
-        for u in graph.adj_list:
-            for v, w in graph.adj_list[u]:
+        for u in graph.nodes:
+            for v, w in graph.get_neighbors(u):
                 edges.append((u, v, w))
         #repeat len(graph.nodes) - 1 times:
         # for all edges in graph.egdes update shortest path
@@ -286,7 +285,7 @@ class UCS(Algorithm):
                 return count_node, distance, path
             if current_priority > g_score[current]:
                 continue
-            for neighbor, weight in graph.adj_list.get(current, []):
+            for neighbor, weight in graph.get_neighbors(current):
                 tentative_g_score = g_score[current] + weight
 
                 # Nếu tìm được đường đi mới rẻ hơn
@@ -344,7 +343,7 @@ class Greedy(Algorithm):
                     closed_set.add(current)
 
                     # Duyệt qua các láng giềng
-                    for neighbor, weight in graph.adj_list.get(current, []):
+                    for neighbor, weight in graph.get_neighbors(current):
                         # Bỏ qua nếu đã duyệt rồi
                         if neighbor in closed_set:
                             continue
@@ -391,7 +390,7 @@ class BidirectionalAstar(Algorithm):
             _, u = pq_f.get()
             count_node += 1
 
-            for v, w in graph.adj_list.get(u, []):
+            for v, w in graph.get_neighbors(u):
                 new_g = g_f[u] + w
                 if v not in g_f or new_g < g_f[v]:
                     g_f[v] = new_g
@@ -407,7 +406,7 @@ class BidirectionalAstar(Algorithm):
             # Backward Search
             _, u = pq_b.get()
             count_node += 1
-            for v, w in graph.adj_list.get(u, []):
+            for v, w in graph.get_neighbors(u):
                 new_g = g_b[u] + w
                 if v not in g_b or new_g < g_b[v]:
                     g_b[v] = new_g
@@ -474,7 +473,7 @@ class BidirectionalDijkstra(Algorithm):
                 d, u = pq_f.get()
                 count_node += 1
                 if d <= dist_f.get(u, float('inf')):
-                    for v, w in graph.adj_list.get(u, []):
+                    for v, w in graph.get_neighbors(u):
                         if dist_f.get(v, float('inf')) > dist_f[u] + w:
                             dist_f[v] = dist_f[u] + w
                             parent_f[v] = u
@@ -491,7 +490,7 @@ class BidirectionalDijkstra(Algorithm):
                 d, u = pq_b.get()
                 count_node += 1
                 if d <= dist_b.get(u, float('inf')):
-                    for v, w in graph.adj_list.get(u, []):
+                    for v, w in graph.get_neighbors(u):
                         if dist_b.get(v, float('inf')) > dist_b[u] + w:
                             dist_b[v] = dist_b[u] + w
                             parent_b[v] = u
