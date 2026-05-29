@@ -236,7 +236,24 @@ class Graph():
                 print(f"Lỗi gọi OSRM: {e}")
             return None, None
 
-        #Xử lý Start với 3 ga gần nhất
+        TRAIN_SPEED = 40.0 # km/h
+        WALK_SPEED = 5.0 # km/h
+        WALK_PENALTY = TRAIN_SPEED / WALK_SPEED
+
+        # 1. Thêm cạnh đi bộ trực tiếp từ Start đến Dest
+        direct_cost, direct_path = get_osrm_walking_data(start_coord[0], start_coord[1], end_coord[0], end_coord[1])
+        if direct_cost is None:
+            direct_cost = self.haversine(start_coord[0], start_coord[1], end_coord[0], end_coord[1])
+            direct_path = [start_node, end_node]
+            
+        direct_cost = direct_cost * WALK_PENALTY # Điều chỉnh trọng số đi bộ
+        
+        self.adj_list[start_node].append((end_node, direct_cost))
+        self.adj_list[end_node].append((start_node, direct_cost))
+        self.edge_paths[(start_node, end_node)] = direct_path
+        self.edge_paths[(end_node, start_node)] = list(reversed(direct_path))
+
+        # 2. Xử lý Start và Dest với 3 ga gần nhất
         for coord, dists, indices, coord_id in [(start_coord ,start_dists, start_indices, start_node), (end_coord, end_dists, end_indices, end_node)]:
             for d, idx in zip(dists, indices):
                 neighbor_id = self._node_ids[idx]
@@ -245,6 +262,9 @@ class Graph():
                 if walk_cost is None:
                     walk_cost = self.haversine(coord[0], coord[1], n_lat, n_lon)
                     walk_path = [coord_id, neighbor_id]
+                    
+                walk_cost = walk_cost * WALK_PENALTY # Điều chỉnh trọng số đi bộ
+
                 self.adj_list[coord_id].append((neighbor_id, walk_cost))
                 self.adj_list[neighbor_id].append((coord_id, walk_cost))
 

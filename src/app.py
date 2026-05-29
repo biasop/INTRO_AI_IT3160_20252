@@ -48,7 +48,7 @@ class App(ctk.CTk):
         self.map_widget.pack(side="right", fill="both", expand=True)
         # Set Singapore
         self.map_widget.set_position(1.3521, 103.8198)
-        self.map_widget.set_zoom(11)
+        self.map_widget.set_zoom(13)
 
         # Bind click
         self.map_widget.add_left_click_map_command(self.on_map_click)
@@ -67,6 +67,7 @@ class App(ctk.CTk):
         self.clear_left_frame()
         self.map_widget.delete_all_marker()
         self.map_widget.delete_all_path()
+        g.remove_chosen_location()
         ctk.CTkLabel(self.left_frame, text="CHỌN CHẾ ĐỘ", font=("Arial", 20, "bold")).pack(pady=(50, 20))
 
         ctk.CTkButton(self.left_frame, text="Chế độ Admin", command=self.show_admin_panel, width=200).pack(pady=10)
@@ -168,6 +169,7 @@ class App(ctk.CTk):
         self.end_marker = None
         self.start_pos = None
         self.end_pos = None
+        g.remove_chosen_location()
         
         if hasattr(self, 'distance_label') and self.distance_label.winfo_exists():
             self.distance_label.configure(text="Khoảng cách: --")
