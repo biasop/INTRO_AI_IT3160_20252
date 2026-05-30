@@ -104,8 +104,21 @@ class App(ctk.CTk):
 
         ctk.CTkLabel(self.stats_frame, text="KẾT QUẢ", font=("Arial", 14, "bold")).pack(pady=(10, 5))
 
-        self.distance_label = ctk.CTkLabel(self.stats_frame, text="Khoảng cách: --", anchor="w")
+        self.distance_label = ctk.CTkLabel(self.stats_frame, text="Độ dài thực tế: --", anchor="w")
         self.distance_label.pack(fill="x", padx=10, pady=2)
+        
+        self.walk_dist_label = ctk.CTkLabel(self.stats_frame, text="  - Đi bộ: --", anchor="w", text_color="#1f6aa5")
+        self.walk_dist_label.pack(fill="x", padx=20, pady=0)
+        self.train_dist_label = ctk.CTkLabel(self.stats_frame, text="  - Tàu: --", anchor="w", text_color="#8e44ad")
+        self.train_dist_label.pack(fill="x", padx=20, pady=0)
+
+        self.time_travel_label = ctk.CTkLabel(self.stats_frame, text="Tổng thời gian di chuyển: --", anchor="w")
+        self.time_travel_label.pack(fill="x", padx=10, pady=2)
+
+        self.walk_time_label = ctk.CTkLabel(self.stats_frame, text="  - Đi bộ: --", anchor="w", text_color="#1f6aa5")
+        self.walk_time_label.pack(fill="x", padx=20, pady=0)
+        self.train_time_label = ctk.CTkLabel(self.stats_frame, text="  - Tàu: --", anchor="w", text_color="#8e44ad")
+        self.train_time_label.pack(fill="x", padx=20, pady=(0, 5))
 
         self.nodes_label = ctk.CTkLabel(self.stats_frame, text="Số nút đã duyệt: --", anchor="w")
         self.nodes_label.pack(fill="x", padx=10, pady=2)
@@ -153,10 +166,10 @@ class App(ctk.CTk):
         lat, lon = coords
         if self.start_marker is None:
             self.start_pos = (lat, lon)
-            self.start_marker = self.map_widget.set_marker(lat, lon, text="Start")
+            self.start_marker = self.map_widget.set_marker(lat, lon, text="Start", marker_color_circle="#2ecc71", marker_color_outside="#27ae60")
         elif self.end_marker is None:
             self.end_pos = (lat, lon)
-            self.end_marker = self.map_widget.set_marker(lat, lon, text="End")
+            self.end_marker = self.map_widget.set_marker(lat, lon, text="End", marker_color_circle="#f1c40f", marker_color_outside="#f39c12")
         else:
             self.reset_map(lat, lon)
 
@@ -164,7 +177,7 @@ class App(ctk.CTk):
     def reset_map(self, lat, lon):
         self.map_widget.delete_all_marker()
         self.map_widget.delete_all_path()
-        self.start_marker = self.map_widget.set_marker(lat, lon, text="Start")
+        self.start_marker = self.map_widget.set_marker(lat, lon, text="Start", marker_color_circle="#2ecc71", marker_color_outside="#27ae60")
         self.start_pos = (lat, lon)
 
         self.end_marker = None
@@ -172,7 +185,12 @@ class App(ctk.CTk):
         
         # Reset lại Label nếu giao diện User đang mở
         if self.mode == "user":
-            self.distance_label.configure(text="Khoảng cách: --")
+            self.distance_label.configure(text="Độ dài thực tế: --")
+            self.walk_dist_label.configure(text="  - Đi bộ: --")
+            self.train_dist_label.configure(text="  - Tàu: --")
+            self.time_travel_label.configure(text="Tổng thời gian di chuyển: --")
+            self.walk_time_label.configure(text="  - Đi bộ: --")
+            self.train_time_label.configure(text="  - Tàu: --")
             self.nodes_label.configure(text="Số nút đã duyệt: --")
             self.time_label.configure(text="Thời gian: --")
 
@@ -189,7 +207,12 @@ class App(ctk.CTk):
         g.remove_chosen_location()
         
         if hasattr(self, 'distance_label') and self.distance_label.winfo_exists():
-            self.distance_label.configure(text="Khoảng cách: --")
+            self.distance_label.configure(text="Độ dài thực tế: --")
+            self.walk_dist_label.configure(text="  - Đi bộ: --")
+            self.train_dist_label.configure(text="  - Tàu: --")
+            self.time_travel_label.configure(text="Tổng thời gian di chuyển: --")
+            self.walk_time_label.configure(text="  - Đi bộ: --")
+            self.train_time_label.configure(text="  - Tàu: --")
             self.nodes_label.configure(text="Số nút đã duyệt: --")
             self.time_label.configure(text="Thời gian: --")
 
@@ -241,12 +264,50 @@ class App(ctk.CTk):
         """Cập nhật giao diện (Chỉ chạy trên luồng chính)"""
         if path:
             self.draw_path(path)
-            self.distance_label.configure(text=f"Khoảng cách: {distance:.2f} km")
+            
+            actual_distance = 0.0
+            walk_distance = 0.0
+            train_distance = 0.0
+            
+            for i in range(len(path) - 1):
+                u = path[i]
+                v = path[i + 1]
+                edge_cost = 0.0
+                for neighbor_id, cost in g.get_neighbors(u):
+                    if neighbor_id == v:
+                        edge_cost = cost
+                        break
+                if u in ["Start", "Dest"] or v in ["Start", "Dest"]:
+                    walk_dist = edge_cost / 8.0 # WALK_PENALTY là 8.0
+                    actual_distance += walk_dist
+                    walk_distance += walk_dist
+                else:
+                    actual_distance += edge_cost
+                    train_distance += edge_cost
+            
+            walk_time_minutes = (walk_distance / 5.0) * 60 # Đi bộ 5km/h
+            train_time_minutes = (train_distance / 40.0) * 60 # Tàu 40km/h
+            total_time_minutes = walk_time_minutes + train_time_minutes
+            
+            self.distance_label.configure(text=f"Độ dài thực tế: {actual_distance:.2f} km")
+            self.walk_dist_label.configure(text=f"  - Đi bộ: {walk_distance:.2f} km")
+            self.train_dist_label.configure(text=f"  - Tàu: {train_distance:.2f} km")
+            
+            self.time_travel_label.configure(text=f"Tổng thời gian di chuyển: {total_time_minutes:.1f} phút")
+            self.walk_time_label.configure(text=f"  - Đi bộ: {walk_time_minutes:.1f} phút")
+            self.train_time_label.configure(text=f"  - Tàu: {train_time_minutes:.1f} phút")
+            
             self.nodes_label.configure(text=f"Số nút đã duyệt: {total_nodes}")
             self.time_label.configure(text=f"Thời gian tìm kiếm: {execution_time:.3f} ms")
         else:
             self.map_widget.delete_all_path()
-            self.distance_label.configure(text="Khoảng cách: Không tìm thấy!")
+            self.distance_label.configure(text="Độ dài thực tế: Không tìm thấy!")
+            if hasattr(self, 'time_travel_label'):
+                self.walk_dist_label.configure(text="  - Đi bộ: --")
+                self.train_dist_label.configure(text="  - Tàu: --")
+                self.time_travel_label.configure(text="Tổng thời gian di chuyển: -- phút")
+                self.walk_time_label.configure(text="  - Đi bộ: --")
+                self.train_time_label.configure(text="  - Tàu: --")
             self.nodes_label.configure(text=f"Số nút đã duyệt: {total_nodes}")
             self.time_label.configure(text="Thời gian: -- ms")
             messagebox.showinfo("Kết quả", "Không tìm thấy đường đi giữa 2 điểm này trên mạng lưới MRT!")
@@ -261,42 +322,8 @@ class App(ctk.CTk):
         if not path or len(path) < 2:
             return
 
-        # Biến gom toàn bộ tọa độ của cả hành trình
-        full_path_coords = []
-
         for i in range(len(path)):
             u = path[i]
-
-            # --- PHẦN 1: LẤY TỌA ĐỘ CỦA NÚT HIỆN TẠI ---
-            current_node_pos = None
-            if u == "Start":
-                current_node_pos = self.start_pos
-            elif u == "Dest":
-                current_node_pos = self.end_pos
-            elif u in g.nodes:
-                current_node_pos = g.nodes[u]
-
-            # Nếu tìm thấy tọa độ, thêm vào danh sách tổng
-            if current_node_pos:
-                # Tránh thêm trùng tọa độ nếu node trước đó đã có tọa độ này
-                if not full_path_coords or current_node_pos != full_path_coords[-1]:
-                    full_path_coords.append(current_node_pos)
-
-            # --- PHẦN 2: LẤY CÁC NÚT CHI TIẾT GIỮA U VÀ V (ĐƯỜNG RAY CONG) ---
-            if i < len(path) - 1:
-                v = path[i + 1]
-                # Lấy danh sách ID trung gian từ edge_paths
-                detailed_nodes = g.edge_paths.get((u, v), [])
-
-                for node_id in detailed_nodes:
-                    pos = None
-                    if isinstance(node_id, tuple):
-                        pos = node_id
-                    elif node_id in g.nodes:
-                        pos = g.nodes[node_id]
-
-                    if pos and (not full_path_coords or pos != full_path_coords[-1]):
-                        full_path_coords.append(pos)
 
             # --- PHẦN 3: ĐẶT MARKER TÊN GA ---
             if u not in ["Start", "Dest"] and u in g.nodes:
@@ -310,12 +337,38 @@ class App(ctk.CTk):
                 )
                 self.station_markers.append(marker)
 
-        # --- PHẦN 4: VẼ ĐƯỜNG ĐI DUY NHẤT ---
-        if len(full_path_coords) > 1:
-            # Bạn có thể đổi màu tùy theo loại đường (đi bộ hoặc tàu)
-            self.map_widget.set_path(full_path_coords, color="#3498db", width=5)
+        # VẼ ĐƯỜNG ĐI THEO TỪNG ĐOẠN ĐỂ ĐỔI MÀU
+        for i in range(len(path) - 1):
+            u = path[i]
+            v = path[i + 1]
+            segment_coords = []
+            
+            # 1. Nút u
+            u_pos = self.start_pos if u == "Start" else (self.end_pos if u == "Dest" else g.nodes.get(u))
+            if u_pos: segment_coords.append(u_pos)
+            
+            # 2. Các điểm chi tiết
+            detailed_nodes = g.edge_paths.get((u, v), [])
+            for node_id in detailed_nodes:
+                pos = None
+                if isinstance(node_id, tuple):
+                    pos = node_id
+                elif node_id in g.nodes:
+                    pos = g.nodes[node_id]
+                if pos and (not segment_coords or pos != segment_coords[-1]):
+                    segment_coords.append(pos)
+                    
+            # 3. Nút v
+            v_pos = self.start_pos if v == "Start" else (self.end_pos if v == "Dest" else g.nodes.get(v))
+            if v_pos and (not segment_coords or v_pos != segment_coords[-1]):
+                segment_coords.append(v_pos)
+                
+            # Đổi màu
+            path_color = "blue" if u in ["Start", "Dest"] or v in ["Start", "Dest"] else "purple"
+            if len(segment_coords) > 1:
+                self.map_widget.set_path(segment_coords, color=path_color, width=5)
 
-        print(f"Đã vẽ đường đi với {len(full_path_coords)} điểm tọa độ.")
+        print(f"Đã vẽ đường đi với {len(path)} điểm.")
     # ===== RESET & XỬ LÝ cho Admin =====
     def show_admin_panel(self):
         self.mode = "admin"
