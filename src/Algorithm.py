@@ -303,64 +303,59 @@ class Greedy(Algorithm):
     def __init__(self):
         super().__init__()
     def run(self, start, goal, graph):
-        class Greedy(Algorithm):
-            def __init__(self):
-                super().__init__()
+        count_node = 0
 
-            def run(self, start, goal, graph):
-                count_node = 0
+        # Hàng đợi ưu tiên: (h_score, node_id)
+        # Chỉ quan tâm đỉnh nào có vẻ gần đích nhất
+        open_queue = PriorityQueue()
+        came_from = {}
 
-                # Hàng đợi ưu tiên: (h_score, node_id)
-                # Chỉ quan tâm đỉnh nào có vẻ gần đích nhất
-                open_queue = PriorityQueue()
-                came_from = {}
+            # Tập hợp để tránh đi vào chu trình
+        closed_set = set()
+        open_set = {start}
 
-                # Tập hợp để tránh đi vào chu trình
-                closed_set = set()
-                open_set = {start}
+            # Lấy tọa độ của đích để tính heuristic
+        goal_lat, goal_lon = graph.nodes[goal]
+        start_lat, start_lon = graph.nodes[start]
 
-                # Lấy tọa độ của đích để tính heuristic
-                goal_lat, goal_lon = graph.nodes[goal]
-                start_lat, start_lon = graph.nodes[start]
+            # Khởi tạo heuristic cho điểm bắt đầu
+        h_start = graph.haversine(start_lat, start_lon, goal_lat, goal_lon)
+        open_queue.put((h_start, start))
 
-                # Khởi tạo heuristic cho điểm bắt đầu
-                h_start = graph.haversine(start_lat, start_lon, goal_lat, goal_lon)
-                open_queue.put((h_start, start))
+        while not open_queue.empty():
+            # Lấy ra đỉnh có h_score nhỏ nhất (gần đích nhất theo đường chim bay)
+            _, current = open_queue.get()
+            count_node += 1
 
-                while not open_queue.empty():
-                    # Lấy ra đỉnh có h_score nhỏ nhất (gần đích nhất theo đường chim bay)
-                    _, current = open_queue.get()
-                    count_node += 1
+            # ĐIỀU KIỆN DỪNG: Tìm thấy đích
+            if current == goal:
+                path = self.reconstruct_path(start, goal, came_from)
+                # Vì Greedy không lưu g_score, ta dùng hàm hỗ trợ để tính lại tổng quãng đường
+                distance = self.calculate_path_distance(path, graph)
+                return count_node, distance, path
 
-                    # ĐIỀU KIỆN DỪNG: Tìm thấy đích
-                    if current == goal:
-                        path = self.reconstruct_path(start, goal, came_from)
-                        # Vì Greedy không lưu g_score, ta dùng hàm hỗ trợ để tính lại tổng quãng đường
-                        distance = self.calculate_path_distance(path, graph)
-                        return count_node, distance, path
+            #đánh dấu đã duyệt xong
+            closed_set.add(current)
 
-                    # Đánh dấu đã duyệt xong
-                    closed_set.add(current)
+            # Duyệt qua các láng giềng
+            for neighbor, weight in graph.get_neighbors(current):
+                # Bỏ qua nếu đã duyệt rồi
+                if neighbor in closed_set:
+                    continue
 
-                    # Duyệt qua các láng giềng
-                    for neighbor, weight in graph.get_neighbors(current):
-                        # Bỏ qua nếu đã duyệt rồi
-                        if neighbor in closed_set:
-                            continue
+            # Nếu là đỉnh mới, đưa vào hàng đợi chờ duyệt
+                if neighbor not in open_set:
+                    came_from[neighbor] = current
+                    open_set.add(neighbor)
 
-                        # Nếu là đỉnh mới, đưa vào hàng đợi chờ duyệt
-                        if neighbor not in open_set:
-                            came_from[neighbor] = current
-                            open_set.add(neighbor)
+            # Tính Heuristic: Haversine từ láng giềng tới goal
+                    n_lat, n_lon = graph.nodes[neighbor]
+                    h_val = graph.haversine(n_lat, n_lon, goal_lat, goal_lon)
 
-                            # Tính Heuristic: Haversine từ láng giềng tới goal
-                            n_lat, n_lon = graph.nodes[neighbor]
-                            h_val = graph.haversine(n_lat, n_lon, goal_lat, goal_lon)
+                    open_queue.put((h_val, neighbor))
 
-                            open_queue.put((h_val, neighbor))
-
-                # Thất bại: Duyệt hết mà không tới được đích
-                return count_node, None, None
+            # Thất bại: Duyệt hết mà không tới được đích
+        return count_node, None, None
 
 
 class BidirectionalAstar(Algorithm):
