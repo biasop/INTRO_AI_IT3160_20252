@@ -120,6 +120,21 @@ class App(ctk.CTk):
     # ===== EVENT: CLICK =====
     def on_map_click(self, coords):
         """Hàm điều phối sự kiện click chuột trên bản đồ"""
+
+        zoom_component = [
+            self.map_widget.button_zoom_in.canvas_rect,
+            self.map_widget.button_zoom_in.canvas_text,
+            self.map_widget.button_zoom_out.canvas_rect,
+            self.map_widget.button_zoom_out.canvas_text
+        ]
+
+        # check xem chuột có chạm vào nút zoom không?
+        clicked_items = self.map_widget.canvas.find_withtag("current")
+        for item in clicked_items:
+            if item in zoom_component:
+                # Đang click vào nút Zoom -> Thoát hàm luôn, không vẽ start/end
+                return
+
         lat, lon = coords
         # Kiểm tra phạm vi chung cho cả 2 chế độ
         if not (1.13 <= lat <= 1.47 and 103.59 <= lon <= 104.05):
