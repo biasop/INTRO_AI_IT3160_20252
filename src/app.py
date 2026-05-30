@@ -87,7 +87,9 @@ class App(ctk.CTk):
         # Combobox chọn thuật toán
         self.algo_var = ctk.StringVar(value="BFS")
         self.algo_box = ctk.CTkComboBox(self.left_frame, variable=self.algo_var,
-                                        values=["BFS", "DFS", "Dijkstra", "A*","Bellman-Ford","UCS"], width=200)
+                                        values=["BFS", "DFS", "Dijkstra", "A*","Bellman-Ford","UCS",
+                                                "Greedy", "Bidirectional A*", "Bidirectional Dijkstra"],
+                                        width=200)
         self.algo_box.pack(pady=5)
 
         # Nút Run 
