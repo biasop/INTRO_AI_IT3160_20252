@@ -115,8 +115,8 @@ class AStar(Algorithm):
         open_queue = PriorityQueue()
         open_queue.put((0, start))
 
-        # Để kiểm tra nhanh node đã có trong hàng đợi chưa
-        open_set = {start}
+        # Để theo dõi các node đã được chốt đường đi ngắn nhất (Lazy Deletion)
+        closed_set = set()
 
         came_from = {}
 
@@ -124,19 +124,19 @@ class AStar(Algorithm):
         g_score = {node: float('inf') for node in graph.nodes}
         g_score[start] = 0
 
-        # f_score: g_score + h_score
-        f_score = {node: float('inf') for node in graph.nodes}
-
         # Lấy tọa độ mục tiêu để tính heuristic
         goal_lat, goal_lon = graph.nodes[goal]
         start_lat, start_lon = graph.nodes[start]
 
-        # Tính toán f ban đầu bằng hàm haversine của graph
-        f_score[start] = graph.haversine(start_lat, start_lon, goal_lat, goal_lon)
-
         while not open_queue.empty():
             # Lấy node có f_score thấp nhất
-            _, current = open_queue.get()
+            current_f, current = open_queue.get()
+            
+            # Lazy Deletion: Bỏ qua nếu node đã được chốt đường ngắn nhất
+            if current in closed_set:
+                continue
+            
+            closed_set.add(current)
             count_node += 1
 
             if current == goal:
@@ -157,11 +157,8 @@ class AStar(Algorithm):
                     n_lat, n_lon = graph.nodes[neighbor]
                     h_val = graph.haversine(n_lat, n_lon, goal_lat, goal_lon)
 
-                    f_score[neighbor] = g_score[neighbor] + h_val
-
-                    if neighbor not in open_set:
-                        open_queue.put((f_score[neighbor], neighbor))
-                        open_set.add(neighbor)
+                    # Đẩy thẳng vào Priority Queue, nếu trùng lặp thì Lazy Deletion sẽ lo
+                    open_queue.put((tentative_g_score + h_val, neighbor))
 
         # Không tìm thấy đường
         return count_node, None, None
@@ -379,40 +376,55 @@ class BidirectionalAstar(Algorithm):
         parent_f, parent_b = {start: None}, {goal: None}
         best_dist = float('inf')
         mu = None
+        
+        # Xây dựng danh sách các cạnh đi VÀO mỗi node (Predecessors)
+        # Bắt buộc phải dùng cho Backward Search trên đồ thị có hướng (đường tàu 1 chiều)
+        incoming = {n: [] for n in graph.nodes}
+        for u in graph.nodes:
+            for v, w in graph.get_neighbors(u):
+                incoming[v].append((u, w))
+
+        closed_f = set()
+        closed_b = set()
 
         while not pq_f.empty() and not pq_b.empty():
             # Forward Search
             _, u = pq_f.get()
-            count_node += 1
-
-            for v, w in graph.get_neighbors(u):
-                new_g = g_f[u] + w
-                if v not in g_f or new_g < g_f[v]:
-                    g_f[v] = new_g
-                    parent_f[v] = u
-                    v_lat, v_lon = graph.nodes[v]
-                    h = graph.haversine(v_lat, v_lon, goal_lat, goal_lon)
-                    pq_f.put((new_g + h, v))
-                    if v in g_b:
-                        if g_f[v] + g_b[v] < best_dist:
-                            best_dist = g_f[v] + g_b[v]
-                            mu = v
+            if u not in closed_f:
+                closed_f.add(u)
+                count_node += 1
+    
+                for v, w in graph.get_neighbors(u):
+                    new_g = g_f[u] + w
+                    if v not in g_f or new_g < g_f[v]:
+                        g_f[v] = new_g
+                        parent_f[v] = u
+                        v_lat, v_lon = graph.nodes[v]
+                        h = graph.haversine(v_lat, v_lon, goal_lat, goal_lon)
+                        pq_f.put((new_g + h, v))
+                        if v in g_b:
+                            if g_f[v] + g_b[v] < best_dist:
+                                best_dist = g_f[v] + g_b[v]
+                                mu = v
 
             # Backward Search
             _, u = pq_b.get()
-            count_node += 1
-            for v, w in graph.get_neighbors(u):
-                new_g = g_b[u] + w
-                if v not in g_b or new_g < g_b[v]:
-                    g_b[v] = new_g
-                    parent_b[v] = u
-                    v_lat, v_lon = graph.nodes[v]
-                    h = graph.haversine(v_lat, v_lon, start_lat, start_lon)
-                    pq_b.put((new_g + h, v))
-                    if v in g_f:
-                        if g_f[v] + g_b[v] < best_dist:
-                            best_dist = g_f[v] + g_b[v]
-                            mu = v
+            if u not in closed_b:
+                closed_b.add(u)
+                count_node += 1
+                # QUAN TRỌNG: Dùng incoming[u] thay vì graph.get_neighbors(u)
+                for v, w in incoming[u]:
+                    new_g = g_b[u] + w
+                    if v not in g_b or new_g < g_b[v]:
+                        g_b[v] = new_g
+                        parent_b[v] = u
+                        v_lat, v_lon = graph.nodes[v]
+                        h = graph.haversine(v_lat, v_lon, start_lat, start_lon)
+                        pq_b.put((new_g + h, v))
+                        if v in g_f:
+                            if g_f[v] + g_b[v] < best_dist:
+                                best_dist = g_f[v] + g_b[v]
+                                mu = v
 
             # Kiểm tra điều kiện kết thúc sớm
             if not pq_f.empty() and not pq_b.empty():
@@ -425,12 +437,12 @@ class BidirectionalAstar(Algorithm):
         path_f, path_b = [], []
         curr = mu
         while curr is not None:
-            path_f.append(curr);
+            path_f.append(curr)
             curr = parent_f[curr]
         path_f.reverse()
         curr = parent_b[mu]
         while curr is not None:
-            path_b.append(curr);
+            path_b.append(curr)
             curr = parent_b[curr]
 
         return count_node, best_dist, path_f + path_b
@@ -462,6 +474,13 @@ class BidirectionalDijkstra(Algorithm):
         best_dist = float('inf')
         mu = None  # Điểm giao nhau tối ưu
 
+        # Xây dựng danh sách các cạnh đi VÀO mỗi node (Predecessors)
+        # Bắt buộc phải dùng cho Backward Search trên đồ thị có hướng
+        incoming = {n: [] for n in graph.nodes}
+        for u in graph.nodes:
+            for v, w in graph.get_neighbors(u):
+                incoming[v].append((u, w))
+
         while not pq_f.empty() and not pq_b.empty():
             # Phát triển bên Forward
             if not pq_f.empty():
@@ -485,7 +504,8 @@ class BidirectionalDijkstra(Algorithm):
                 d, u = pq_b.get()
                 count_node += 1
                 if d <= dist_b.get(u, float('inf')):
-                    for v, w in graph.get_neighbors(u):
+                    # QUAN TRỌNG: Dùng incoming[u] thay vì graph.get_neighbors(u)
+                    for v, w in incoming[u]:
                         if dist_b.get(v, float('inf')) > dist_b[u] + w:
                             dist_b[v] = dist_b[u] + w
                             parent_b[v] = u

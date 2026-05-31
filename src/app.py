@@ -455,6 +455,8 @@ class App(ctk.CTk):
 
             if (u,v) in drawed_edges or (v,u) in drawed_edges: #ĐOẠN NÀY CHƯA XỬ LÝ 1 CHIỀU
                 continue  # Nếu cặp này vẽ rồi thì bỏ qua luôn
+            
+            drawed_edges.add((u, v))
 
             actual_coords = [g.nodes[item] if item in g.nodes else item for item in path_data]
 
@@ -535,7 +537,7 @@ def dist_to_segment( p, s1, s2, threshold):
 
     dx, dy = x2 - x1, y2 - y1
     if dx == 0 and dy == 0:
-        return ((px - x1) ** 2 + (py - y1) ** 2) ** 0.5 < threshold
+        return ((px - x1) ** 2 + (py - y1) ** 2) ** 0.5
 
     t = ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)
     t = max(0, min(1, t))  # Giới hạn trong đoạn thẳng s1-s2
