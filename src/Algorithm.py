@@ -104,68 +104,72 @@ class BFS(Algorithm):
                 open_set.append(neighbor_id)
         return count_node, None , None
 
+
 class AStar(Algorithm):
     def __init__(self):
         super().__init__()
 
     def run(self, start, goal, graph):
         count_node = 0
-        # Priority Queue: (chi_phi_tich_luy, node_id)
-        # Bản chất: Nhặt giá trị chi_phi_tich_luy (g_score) nhỏ nhất lên đầu
+
+        # open_queue: Hàng đợi ưu tiên lưu các node chờ xét theo f_score
         open_queue = PriorityQueue()
         open_queue.put((0, start))
 
-        # Để kiểm tra nhanh node đã có trong hàng đợi chưa
-        open_set = {start}
-
         came_from = {}
 
-        # g_score: Chi phí thực tế từ start đến node hiện tại
+        # g_score: Chi phí thực tế từ điểm xuất phát đến các node
         g_score = {node: float('inf') for node in graph.nodes}
         g_score[start] = 0
 
-        # f_score: g_score + h_score
-        f_score = {node: float('inf') for node in graph.nodes}
-
-        # Lấy tọa độ mục tiêu để tính heuristic
+        # Lấy tọa độ mục tiêu để tính hàm Heuristic (Haversine)
         goal_lat, goal_lon = graph.nodes[goal]
         start_lat, start_lon = graph.nodes[start]
 
-        # Tính toán f ban đầu bằng hàm haversine của graph
-        f_score[start] = graph.haversine(start_lat, start_lon, goal_lat, goal_lon)
+        # closed_set: Tập hợp lưu các node đã chốt đường đi ngắn nhất (Explored Set)
+        # Sử dụng kỹ thuật Lazy Deletion để lọc các vé trùng lặp
+        closed_set = set()
 
         while not open_queue.empty():
-            # Lấy node có f_score thấp nhất
+            # Bốc node có f_score nhỏ nhất ra khỏi hàng đợi
             _, current = open_queue.get()
-            count_node += 1
 
+            # Bỏ qua nếu node này đã được chốt (lọc vé rác do Lazy Deletion)
+            if current in closed_set:
+                continue
+
+            count_node += 1
+            # Đánh dấu node đã được xét xong
+            closed_set.add(current)
+
+            # Kích hoạt điều kiện dừng nếu đã chạm đích
             if current == goal:
-                # Trả về: count_node, distance, path
                 path = self.reconstruct_path(start, goal, came_from)
                 distance = g_score[goal]
                 return count_node, distance, path
 
-            # Duyệt các láng giềng từ adj_list: [(neighbor_id, weight), ...]
+            # Duyệt qua các node láng giềng kề cận
             for neighbor, weight in graph.get_neighbors(current):
                 tentative_g_score = g_score[current] + weight
 
+                # Nếu tìm được đường đi thực tế ngắn hơn đến láng giềng
                 if tentative_g_score < g_score.get(neighbor, float('inf')):
+                    # Cập nhật thông tin đường đi
                     came_from[neighbor] = current
                     g_score[neighbor] = tentative_g_score
 
-                    # Tính Heuristic: Haversine từ neighbor tới goal
+                    # Tính toán lại hàm Heuristic
                     n_lat, n_lon = graph.nodes[neighbor]
                     h_val = graph.haversine(n_lat, n_lon, goal_lat, goal_lon)
 
-                    f_score[neighbor] = g_score[neighbor] + h_val
+                    # f(n) = g(n) + h(n)
+                    f_score_neighbor = g_score[neighbor] + h_val
 
-                    if neighbor not in open_set:
-                        open_queue.put((f_score[neighbor], neighbor))
-                        open_set.add(neighbor)
+                    # Đẩy thẳng vào hàng đợi không cần check trùng lặp (Lazy Deletion)
+                    open_queue.put((f_score_neighbor, neighbor))
 
-        # Không tìm thấy đường
+        # Trả về None nếu không tìm thấy đường đi (đồ thị bị chia cắt)
         return count_node, None, None
-
 
 class Dijkstra(Algorithm):
     def __init__(self):
@@ -212,14 +216,14 @@ class Dijkstra(Algorithm):
         distance = g_score[goal]
 
         return count_node, distance, path
-    
+
 class BellmanFord(Algorithm):
     def __init__(self):
         super().__init__()
     def run(self, start, goal, graph):
         #if start in graph.obstacles or goal in graph.obstacles:
             #return 0, None
-
+        #đoạn này không cần thiết, vì người đi bộ không cần nhất thiết phải đi chính xác ga gần nhất mà có thể chọn ga khác để đi
 
         count_node =0
         dist = {node: float('inf') for node in graph.nodes}
@@ -425,12 +429,12 @@ class BidirectionalAstar(Algorithm):
         path_f, path_b = [], []
         curr = mu
         while curr is not None:
-            path_f.append(curr);
+            path_f.append(curr)
             curr = parent_f[curr]
         path_f.reverse()
         curr = parent_b[mu]
         while curr is not None:
-            path_b.append(curr);
+            path_b.append(curr)
             curr = parent_b[curr]
 
         return count_node, best_dist, path_f + path_b
