@@ -1,5 +1,4 @@
 import math
-from scipy.spatial import KDTree
 import pickle
 import requests
 import json
@@ -236,40 +235,65 @@ class Graph():
                 print(f"Lỗi gọi OSRM: {e}")
             return None, None
 
-        TRAIN_SPEED = 40.0 # km/h
-        WALK_SPEED = 5.0 # km/h
+        TRAIN_SPEED = 40.0  # km/h
+        WALK_SPEED = 5.0  # km/h
         WALK_PENALTY = TRAIN_SPEED / WALK_SPEED
 
-        # 1. Thêm cạnh đi bộ trực tiếp từ Start đến Dest
-        direct_cost, direct_path = get_osrm_walking_data(start_coord[0], start_coord[1], end_coord[0], end_coord[1])
-        if direct_cost is None:
-            direct_cost = self.haversine(start_coord[0], start_coord[1], end_coord[0], end_coord[1])
-            direct_path = [start_node, end_node]
-            
-        direct_cost = direct_cost * WALK_PENALTY # Điều chỉnh trọng số đi bộ
-        
-        self.adj_list[start_node].append((end_node, direct_cost))
-        self.adj_list[end_node].append((start_node, direct_cost))
-        self.edge_paths[(start_node, end_node)] = direct_path
-        self.edge_paths[(end_node, start_node)] = list(reversed(direct_path))
+        # Khởi tạo biến lưu khoảng cách thực tế lớn nhất
+        max_actual_start_dist = 0
+        max_actual_end_dist = 0
 
-        # 2. Xử lý Start và Dest với 3 ga gần nhất
-        for coord, dists, indices, coord_id in [(start_coord ,start_dists, start_indices, start_node), (end_coord, end_dists, end_indices, end_node)]:
+        # 1. TẠO 6 CẠNH TRƯỚC: Xử lý Start và Dest với 3 ga gần nhất bằng OSRM
+        for coord, dists, indices, coord_id in [(start_coord, start_dists, start_indices, start_node),
+                                                (end_coord, end_dists, end_indices, end_node)]:
             for d, idx in zip(dists, indices):
                 neighbor_id = self._node_ids[idx]
                 n_lat, n_lon = self.nodes[neighbor_id]
-                walk_cost, walk_path = get_osrm_walking_data(coord[0], coord[1], n_lat, n_lon)
-                if walk_cost is None:
-                    walk_cost = self.haversine(coord[0], coord[1], n_lat, n_lon)
+
+                # Gọi API lấy khoảng cách thực tế
+                actual_dist, walk_path = get_osrm_walking_data(coord[0], coord[1], n_lat, n_lon)
+
+                # Fallback nếu API lỗi
+                if actual_dist is None:
+                    actual_dist = self.haversine(coord[0], coord[1], n_lat, n_lon)
                     walk_path = [coord_id, neighbor_id]
-                    
-                walk_cost = walk_cost * WALK_PENALTY # Điều chỉnh trọng số đi bộ
+
+                # Lấy dữ liệu thực tế lớn nhất của Start hoặc Dest (trước khi nhân penalty)
+                if coord_id == start_node:
+                    max_actual_start_dist = max(max_actual_start_dist, actual_dist)
+                elif coord_id == end_node:
+                    max_actual_end_dist = max(max_actual_end_dist, actual_dist)
+
+                # Điều chỉnh trọng số đi bộ
+                walk_cost = actual_dist * WALK_PENALTY
 
                 self.adj_list[coord_id].append((neighbor_id, walk_cost))
                 self.adj_list[neighbor_id].append((coord_id, walk_cost))
 
                 self.edge_paths[(coord_id, neighbor_id)] = walk_path
                 self.edge_paths[(neighbor_id, coord_id)] = list(reversed(walk_path))
+
+        # 2. KIỂM TRA ĐIỀU KIỆN ĐỂ TẠO CẠNH ĐI BỘ TRỰC TIẾP
+        # Tính khoảng cách đường chim bay giữa Start và Dest
+        direct_haversine_dist = self.haversine(start_coord[0], start_coord[1], end_coord[0], end_coord[1])
+
+        # Tổng khoảng cách thực tế lớn nhất đi bộ ra ga
+        max_total_dist = max_actual_start_dist + max_actual_end_dist
+
+        # So sánh khoảng cách trực tiếp (chim bay) với tổng khoảng cách thực tế đi ra ga (từ API)
+        if direct_haversine_dist <= max_total_dist:
+            direct_cost, direct_path = get_osrm_walking_data(start_coord[0], start_coord[1], end_coord[0], end_coord[1])
+            if direct_cost is None:
+                direct_cost = direct_haversine_dist
+                direct_path = [start_node, end_node]
+
+            direct_cost = direct_cost * WALK_PENALTY
+
+            self.adj_list[start_node].append((end_node, direct_cost))
+            self.adj_list[end_node].append((start_node, direct_cost))
+            self.edge_paths[(start_node, end_node)] = direct_path
+            self.edge_paths[(end_node, start_node)] = list(reversed(direct_path))
+
 
     def remove_chosen_location(self):
         """

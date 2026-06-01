@@ -1,7 +1,4 @@
 from abc import ABC, abstractmethod
-from queue import PriorityQueue, Queue
-
-from networkx.algorithms.shortest_paths.dense import reconstruct_path
 
 
 class Algorithm(ABC):
@@ -80,8 +77,6 @@ class BFS(Algorithm):
     def __init__(self):
         super().__init__()
     def run(self, start, goal, graph):
-        #if start in graph.obstacles or goal in graph.obstacles:
-            #return 0, None
         count_node = 0
         came_from = {}
         open_set = [start]
